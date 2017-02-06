@@ -7,8 +7,6 @@ var Knight = function (props) {
           }}>{props.white ? '♘' : '♞'}</div>;       
       };
 
-module.exports = Knight;
-
 var King = function (props) {
         return <div style={{
           fontSize:'65px',
@@ -38,3 +36,11 @@ var Pawn = function (props) {
           fontSize:'65px',
           }}>{props.white ? '♙' : '♟'}</div>;       
       };
+
+module.exports = {Knight: Knight
+                 ,King: King
+                 ,Queen: Queen
+                 ,Rook: Rook
+                 ,Bishop: Bishop
+                 ,Pawn: Pawn
+                };
