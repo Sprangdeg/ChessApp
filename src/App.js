@@ -7,10 +7,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
+        <div className="App-header"> <div style={{fontSize: '3em', display: 'inline-block', position: 'relative', top: '-20px'}}>REACT CHESS</div> <img src={logo} className="App-logo" alt="logo" /> </div>
         <Board WhiteRookOnePosition=  {[0, 0]}
                WhiteKnightOnePosition={[1, 0]} 
                WhiteBishopOnePosition={[2, 0]} 

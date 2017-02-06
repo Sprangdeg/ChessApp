@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-//import { Knight } from './ChessPieces';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
 import Square from './Square';
+
 var Knight = require( './ChessPieces').Knight;
 var King = require( './ChessPieces').King;
 var Queen = require( './ChessPieces').Queen;
@@ -8,7 +11,7 @@ var Rook = require( './ChessPieces').Rook;
 var Bishop = require( './ChessPieces').Bishop;
 var Pawn = require( './ChessPieces').Pawn;
 
-export default class Board extends Component {
+class Board extends Component {
   renderSquare(i) {
     const x = i % 8;
     const y = Math.floor(i / 8);
@@ -131,6 +134,8 @@ export default class Board extends Component {
     );
   }
 }
+
+export default DragDropContext(HTML5Backend)(Board);
 
 Board.propTypes = {
   knightPosition: PropTypes.arrayOf(
