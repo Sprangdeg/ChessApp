@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Board from './Board.js'
+import Board from './Board.js';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header"> <div style={{fontSize: '3em', display: 'inline-block', position: 'relative', top: '-20px'}}>REACT CHESS</div> <img src={logo} className="App-logo" alt="logo" /> </div>
+        <div className="App-header"> <div style={{fontSize: '3em', display: 'inline-block', position: 'relative', top: '-20px'}}>REACT CHESS</div> <img src={logo} className="App-logo" alt="logo" /> </div>             
         <Board WhiteRookOnePosition=  {[0, 0]}
-               WhiteKnightOnePosition={[1, 0]} 
+               WhiteKnightOnePosition={this.props.knightPosition} 
                WhiteBishopOnePosition={[2, 0]} 
                WhiteKingPosition=     {[3, 0]} 
                WhiteQueenPosition=    {[4, 0]}
@@ -48,5 +48,7 @@ class App extends Component {
     );
   }
 }
+
+
 
 export default App;

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import { moveKnight, canMoveKnight } from './Game'
 
 import Square from './Square';
 
@@ -105,13 +106,20 @@ class Board extends Component {
 
     return (
       <div key={i}
-           style={{ width: '80px', height: '80px' }}>
+           style={{ width: '80px', height: '80px' }}
+           onClick={() => this.handleSquareClick(x, y)}>
         <Square black={black}>
           {piece}
         </Square>
       </div>
     );
   }
+
+handleSquareClick(toX, toY) {
+  if (canMoveKnight(toX, toY)) {
+    moveKnight(toX, toY);
+  }
+}
 
   render() {
     const squares = [];
