@@ -2,20 +2,35 @@ import React, { Component, PropTypes } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { moveKnight, canMoveKnight } from './Game'
-
 import Square from './Square';
+import Knight from './ChessPieces/Knight';
+import King from './ChessPieces/King';
+import Queen from './ChessPieces/Queen';
+import Rook from './ChessPieces/Rook';
+import Bishop from './ChessPieces/Bishop';
+import Pawn from './ChessPieces/Pawn';
+import BoardSquare from './BoardSquare'
 
-var Knight = require( './ChessPieces').Knight;
-var King = require( './ChessPieces').King;
-var Queen = require( './ChessPieces').Queen;
-var Rook = require( './ChessPieces').Rook;
-var Bishop = require( './ChessPieces').Bishop;
-var Pawn = require( './ChessPieces').Pawn;
+
 
 class Board extends Component {
   renderSquare(i) {
     const x = i % 8;
     const y = Math.floor(i / 8);
+
+    return (
+      <div key={i}
+           style={{ width: '80px', height: '80px' }}
+           onClick={() => this.handleSquareClick(x, y)}>
+      <BoardSquare x={x}
+                   y={y}>
+        {this.renderPiece(x, y)}
+      </BoardSquare>
+      </div>
+    );
+  }
+
+renderPiece(x, y) {
     const black = (x + y) % 2 === 1;
     const white = !black;
 
@@ -101,19 +116,8 @@ class Board extends Component {
     else if(x === bpawnEightX && y === bpawnEightY)   piece = <Pawn white={black}/>;
 
     else                                            piece = null;
-    
-    //const piece1 = (x === kingX && y === kingY) ? <King white={true}/> : null;
-
-    return (
-      <div key={i}
-           style={{ width: '80px', height: '80px' }}
-           onClick={() => this.handleSquareClick(x, y)}>
-        <Square black={black}>
-          {piece}
-        </Square>
-      </div>
-    );
-  }
+    return piece;
+}
 
 handleSquareClick(toX, toY) {
   if (canMoveKnight(toX, toY)) {

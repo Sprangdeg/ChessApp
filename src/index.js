@@ -4,7 +4,6 @@ import App from './App';
 import './index.css';
 import { observe } from './Game';
 
-
 var rootEl = document.getElementById('root');
 
   observe(knightPosition =>
