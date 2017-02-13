@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { ItemTypes } from '../Constants';
 import { DragSource } from 'react-dnd';
-import horse from './horse.png';
+import WhiteKnight_img from './WhiteKnight.png';
 
 const knightSource = {
   beginDrag(props) {
@@ -21,7 +21,7 @@ class Knight extends Component {
   
   componentDidMount() {
     const img = new Image();
-    img.src = horse;
+    img.src = WhiteKnight_img;
     img.onload = () => this.props.connectDragPreview(img);
   }
   render() {

@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { ItemTypes } from '../Constants';
 import { DragSource } from 'react-dnd';
+import WhiteQueen_img from './WhiteQueen.png';
 
-const knightSource = {
+const queenSource = {
   beginDrag(props) {
     return {};
   }
@@ -11,27 +12,34 @@ const knightSource = {
 function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging()
   }
 }
 
-class Knight extends Component {
+class Queen extends Component {
+    componentDidMount() {
+    const img = new Image();
+    img.src = WhiteQueen_img;
+    img.onload = () => this.props.connectDragPreview(img);
+  }
   render() {
     const { connectDragSource, isDragging } = this.props;
     return connectDragSource(
       <div style={{
           fontSize:'65px',
-          }}>{this.props.white ? '♘' : '♞'}</div>
+          }}>{this.props.white ? '♕' : '♛'}</div>
     );
   }
 }
 
-Knight.propTypes = {
+Queen.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
+  connectDragPreview: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired
 };
 
-export default DragSource(ItemTypes.KNIGHT, knightSource, collect)(Knight);
+export default DragSource(ItemTypes.QUEEN, queenSource, collect)(Queen);
 
 /*var Knight = function (props) {
         return <div style={{
