@@ -8,41 +8,41 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header"> <div style={{fontSize: '3em', display: 'inline-block', position: 'relative', top: '-20px'}}>REACT CHESS</div> <img src={logo} className="App-logo" alt="logo" /> </div>             
-        <Board WhiteRookOnePosition=  {[0, 0]}
-               WhiteKnightOnePosition={this.props.knightPosition} 
-               WhiteBishopOnePosition={[2, 0]} 
-               WhiteKingPosition=     {[3, 0]} 
-               WhiteQueenPosition=    {[4, 0]}
-               WhiteBishopTwoPosition={[5, 0]}
-               WhiteKnightTwoPosition={[6, 0]} 
-               WhiteRookTwoPosition=  {[7, 0]} 
+        <Board WhiteRookOnePosition=  {this.props.WhiteRookOnePosition}
+               WhiteKnightOnePosition={this.props.WhiteKnightOnePosition} 
+               WhiteBishopOnePosition={this.props.WhiteBishopOnePosition} 
+               WhiteKingPosition=     {this.props.WhiteKingPosition} 
+               WhiteQueenPosition=    {this.props.WhiteQueenPosition}
+               WhiteBishopTwoPosition={this.props.WhiteBishopTwoPosition}
+               WhiteKnightTwoPosition={this.props.WhiteKnightTwoPosition} 
+               WhiteRookTwoPosition=  {this.props.WhiteRookTwoPosition} 
                
-               WhitePawnOnePosition=  {[0, 1]} 
-               WhitePawnTwoPosition=  {[1, 1]} 
-               WhitePawnThreePosition={[2, 1]} 
-               WhitePawnFourPosition= {[3, 1]} 
-               WhitePawnFivePosition= {[4, 1]} 
-               WhitePawnSixPosition=  {[5, 1]} 
-               WhitePawnSevenPosition={[6, 1]} 
-               WhitePawnEightPosition={[7, 1]} 
+               WhitePawnOnePosition=  {this.props.WhitePawnOnePosition} 
+               WhitePawnTwoPosition=  {this.props.WhitePawnTwoPosition} 
+               WhitePawnThreePosition={this.props.WhitePawnThreePosition} 
+               WhitePawnFourPosition= {this.props.WhitePawnFourPosition} 
+               WhitePawnFivePosition= {this.props.WhitePawnFivePosition} 
+               WhitePawnSixPosition=  {this.props.WhitePawnSixPosition} 
+               WhitePawnSevenPosition={this.props.WhitePawnSevenPosition} 
+               WhitePawnEightPosition={this.props.WhitePawnEightPosition} 
 
-               BlackRookOnePosition=  {[0, 7]}
-               BlackKnightOnePosition={[1, 7]} 
-               BlackBishopOnePosition={[2, 7]} 
-               BlackKingPosition=     {[3, 7]} 
-               BlackQueenPosition=    {[4, 7]}
-               BlackBishopTwoPosition={[5, 7]}
-               BlackKnightTwoPosition={[6, 7]} 
-               BlackRookTwoPosition=  {[7, 7]} 
+               BlackRookOnePosition=  {this.props.BlackRookOnePosition}
+               BlackKnightOnePosition={this.props.BlackKnightOnePosition} 
+               BlackBishopOnePosition={this.props.BlackBishopOnePosition} 
+               BlackKingPosition=     {this.props.BlackKingPosition} 
+               BlackQueenPosition=    {this.props.BlackQueenPosition}
+               BlackBishopTwoPosition={this.props.BlackBishopTwoPosition}
+               BlackKnightTwoPosition={this.props.BlackKnightTwoPosition} 
+               BlackRookTwoPosition=  {this.props.BlackRookTwoPosition} 
                
-               BlackPawnOnePosition=  {[0, 6]} 
-               BlackPawnTwoPosition=  {[1, 6]} 
-               BlackPawnThreePosition={[2, 6]} 
-               BlackPawnFourPosition= {[3, 6]} 
-               BlackPawnFivePosition= {[4, 6]} 
-               BlackPawnSixPosition=  {[5, 6]} 
-               BlackPawnSevenPosition={[6, 6]} 
-               BlackPawnEightPosition={[7, 6]}
+               BlackPawnOnePosition=  {this.props.BlackPawnOnePosition} 
+               BlackPawnTwoPosition=  {this.props.BlackPawnTwoPosition} 
+               BlackPawnThreePosition={this.props.BlackPawnThreePosition} 
+               BlackPawnFourPosition= {this.props.BlackPawnFourPosition} 
+               BlackPawnFivePosition= {this.props.BlackPawnFivePosition} 
+               BlackPawnSixPosition=  {this.props.BlackPawnSixPosition} 
+               BlackPawnSevenPosition={this.props.BlackPawnSevenPosition} 
+               BlackPawnEightPosition={this.props.BlackPawnEightPosition}
         />,
       </div>
     );

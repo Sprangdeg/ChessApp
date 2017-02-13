@@ -150,7 +150,7 @@ handleSquareClick(toX, toY) {
 export default DragDropContext(HTML5Backend)(Board);
 
 Board.propTypes = {
-  knightPosition: PropTypes.arrayOf(
+  WhiteKnightOnePosition: PropTypes.arrayOf(
     PropTypes.number.isRequired
   ).isRequired
 };
