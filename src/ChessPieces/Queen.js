@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { ItemTypes } from '../Constants';
 import { DragSource } from 'react-dnd';
 import WhiteQueen_img from './WhiteQueen.png';
+import BlackQueen_img from './BlackQueen.png';
 
 const queenSource = {
   beginDrag(props) {
@@ -20,7 +21,7 @@ function collect(connect, monitor) {
 class Queen extends Component {
     componentDidMount() {
     const img = new Image();
-    img.src = WhiteQueen_img;
+    img.src = this.props.whiteplayer ? WhiteQueen_img: BlackQueen_img;
     img.onload = () => this.props.connectDragPreview(img);
   }
   render() {
@@ -28,7 +29,7 @@ class Queen extends Component {
     return connectDragSource(
       <div style={{
           fontSize:'65px',
-          }}>{this.props.white ? '♕' : '♛'}</div>
+          }}>{this.props.whitesquare ? '♕' : '♛'}</div>
     );
   }
 }

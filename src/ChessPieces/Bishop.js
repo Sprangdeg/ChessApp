@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { ItemTypes } from '../Constants';
 import { DragSource } from 'react-dnd';
 import WhiteBishop_img from './WhiteBishop.png';
+import BlackBishop_img from './BlackBishop.png';
 
 const bishopSource = {
   beginDrag(props) {
@@ -20,7 +21,7 @@ function collect(connect, monitor) {
 class Bishop extends Component {
     componentDidMount() {
     const img = new Image();
-    img.src = WhiteBishop_img;
+    img.src = this.props.whiteplayer ? WhiteBishop_img : BlackBishop_img;
     img.onload = () => this.props.connectDragPreview(img);
   }
   render() {
@@ -28,7 +29,7 @@ class Bishop extends Component {
     return connectDragSource(
       <div style={{
           fontSize:'65px',
-          }}>{this.props.white ? '♗' : '♝'}</div>
+          }}>{this.props.whitesquare ? '♗' : '♝'}</div>
     );
   }
 }

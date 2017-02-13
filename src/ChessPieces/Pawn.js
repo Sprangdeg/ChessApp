@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { ItemTypes } from '../Constants';
 import { DragSource } from 'react-dnd';
 import WhitePawn_img from './WhitePawn.png';
+import BlackPawn_img from './BlackPawn.png';
 
 const pawnSource = {
   beginDrag(props) {
@@ -20,7 +21,7 @@ function collect(connect, monitor) {
 class Pawn extends Component {
     componentDidMount() {
     const img = new Image();
-    img.src = WhitePawn_img;
+    img.src = this.props.whiteplayer ? WhitePawn_img : BlackPawn_img;
     img.onload = () => this.props.connectDragPreview(img);
   }
   render() {
@@ -28,7 +29,7 @@ class Pawn extends Component {
     return connectDragSource(
       <div style={{
           fontSize:'65px',
-          }}>{this.props.white ? '♙' : '♟'}</div>
+          }}>{this.props.whitesquare ? '♙' : '♟'}</div>
     );
   }
 }

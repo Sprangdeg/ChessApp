@@ -80,40 +80,40 @@ renderPiece(x, y) {
 
 
     let piece = null;
-    
-    if(x === wrookOneX && y === wrookOneY)            piece = <Rook white={white}/>;
-    else if(x === wrookTwoX && y === wrookTwoY)       piece = <Rook white={white}/>;
-    else if(x === wknightOneX && y === wknightOneY)   piece = <Knight white={white}/>;
-    else if(x === wknightTwoX && y === wknightTwoY)   piece = <Knight white={white}/>;
-    else if(x === wbishopOneX && y === wbishopOneY)   piece = <Bishop white={white}/>;
-    else if(x === wbishopTwoX && y === wbishopTwoY)   piece = <Bishop white={white}/>;
-    else if(x === wkingX && y === wkingY)             piece = <King white={white}/>;
-    else if(x === wqueenX && y === wqueenY)           piece = <Queen white={white}/>;
-    else if(x === wpawnOneX && y === wpawnOneY)       piece = <Pawn white={white}/>;
-    else if(x === wpawnTwoX && y === wpawnTwoY)       piece = <Pawn white={white}/>;
-    else if(x === wpawnThreeX && y === wpawnThreeY)   piece = <Pawn white={white}/>;
-    else if(x === wpawnFourX && y === wpawnFourY)     piece = <Pawn white={white}/>;
-    else if(x === wpawnFiveX && y === wpawnFiveY)     piece = <Pawn white={white}/>;
-    else if(x === wpawnSixX && y === wpawnSixY)       piece = <Pawn white={white}/>;
-    else if(x === wpawnSevenX && y === wpawnSevenY)   piece = <Pawn white={white}/>;
-    else if(x === wpawnEightX && y === wpawnEightY)   piece = <Pawn white={white}/>;
+                                              //The unicode black piece looks bad on white square
+   	if(x === wrookOneX && y === wrookOneY)            piece = <Rook whitesquare={white} whiteplayer={true}/>;
+    else if(x === wrookTwoX && y === wrookTwoY)       piece = <Rook whitesquare={white} whiteplayer={true}/>;
+    else if(x === wknightOneX && y === wknightOneY)   piece = <Knight whitesquare={white} whiteplayer={true}/>;
+    else if(x === wknightTwoX && y === wknightTwoY)   piece = <Knight whitesquare={white} whiteplayer={true}/>;
+    else if(x === wbishopOneX && y === wbishopOneY)   piece = <Bishop whitesquare={white} whiteplayer={true}/>;
+    else if(x === wbishopTwoX && y === wbishopTwoY)   piece = <Bishop whitesquare={white} whiteplayer={true}/>;
+    else if(x === wkingX && y === wkingY)             piece = <King whitesquare={white} whiteplayer={true}/>;
+    else if(x === wqueenX && y === wqueenY)           piece = <Queen whitesquare={white} whiteplayer={true}/>;
+    else if(x === wpawnOneX && y === wpawnOneY)       piece = <Pawn whitesquare={white} whiteplayer={true}/>;
+    else if(x === wpawnTwoX && y === wpawnTwoY)       piece = <Pawn whitesquare={white} whiteplayer={true}/>;
+    else if(x === wpawnThreeX && y === wpawnThreeY)   piece = <Pawn whitesquare={white} whiteplayer={true}/>;
+    else if(x === wpawnFourX && y === wpawnFourY)     piece = <Pawn whitesquare={white} whiteplayer={true}/>;
+    else if(x === wpawnFiveX && y === wpawnFiveY)     piece = <Pawn whitesquare={white} whiteplayer={true}/>;
+    else if(x === wpawnSixX && y === wpawnSixY)       piece = <Pawn whitesquare={white} whiteplayer={true}/>;
+    else if(x === wpawnSevenX && y === wpawnSevenY)   piece = <Pawn whitesquare={white} whiteplayer={true}/>;
+    else if(x === wpawnEightX && y === wpawnEightY)   piece = <Pawn whitesquare={white} whiteplayer={true}/>;
 
-    else if(x === brookOneX && y === brookOneY)       piece = <Rook white={black}/>;
-    else if(x === brookTwoX && y === brookTwoY)       piece = <Rook white={black}/>;
-    else if(x === bknightOneX && y === bknightOneY)   piece = <Knight white={black}/>;
-    else if(x === bknightTwoX && y === bknightTwoY)   piece = <Knight white={black}/>;
-    else if(x === bbishopOneX && y === bbishopOneY)   piece = <Bishop white={black}/>;
-    else if(x === bbishopTwoX && y === bbishopTwoY)   piece = <Bishop white={black}/>;
-    else if(x === bkingX && y === bkingY)             piece = <King white={black}/>;
-    else if(x === bqueenX && y === bqueenY)           piece = <Queen white={black}/>;
-    else if(x === bpawnOneX && y === bpawnOneY)       piece = <Pawn white={black}/>;
-    else if(x === bpawnTwoX && y === bpawnTwoY)       piece = <Pawn white={black}/>;
-    else if(x === bpawnThreeX && y === bpawnThreeY)   piece = <Pawn white={black}/>;
-    else if(x === bpawnFourX && y === bpawnFourY)     piece = <Pawn white={black}/>;
-    else if(x === bpawnFiveX && y === bpawnFiveY)     piece = <Pawn white={black}/>;
-    else if(x === bpawnSixX && y === bpawnSixY)       piece = <Pawn white={black}/>;
-    else if(x === bpawnSevenX && y === bpawnSevenY)   piece = <Pawn white={black}/>;
-    else if(x === bpawnEightX && y === bpawnEightY)   piece = <Pawn white={black}/>;
+    else if(x === brookOneX && y === brookOneY)       piece = <Rook whitesquare={black} whiteplayer={false}/>;
+    else if(x === brookTwoX && y === brookTwoY)       piece = <Rook whitesquare={black} whiteplayer={false}/>;
+    else if(x === bknightOneX && y === bknightOneY)   piece = <Knight whitesquare={black} whiteplayer={false}/>;
+    else if(x === bknightTwoX && y === bknightTwoY)   piece = <Knight whitesquare={black} whiteplayer={false}/>;
+    else if(x === bbishopOneX && y === bbishopOneY)   piece = <Bishop whitesquare={black} whiteplayer={false}/>;
+    else if(x === bbishopTwoX && y === bbishopTwoY)   piece = <Bishop whitesquare={black} whiteplayer={false}/>;
+    else if(x === bkingX && y === bkingY)             piece = <King whitesquare={black} whiteplayer={false}/>;
+    else if(x === bqueenX && y === bqueenY)           piece = <Queen whitesquare={black} whiteplayer={false}/>;
+    else if(x === bpawnOneX && y === bpawnOneY)       piece = <Pawn whitesquare={black} whiteplayer={false}/>;
+    else if(x === bpawnTwoX && y === bpawnTwoY)       piece = <Pawn whitesquare={black} whiteplayer={false}/>;
+    else if(x === bpawnThreeX && y === bpawnThreeY)   piece = <Pawn whitesquare={black} whiteplayer={false}/>;
+    else if(x === bpawnFourX && y === bpawnFourY)     piece = <Pawn whitesquare={black} whiteplayer={false}/>;
+    else if(x === bpawnFiveX && y === bpawnFiveY)     piece = <Pawn whitesquare={black} whiteplayer={false}/>;
+    else if(x === bpawnSixX && y === bpawnSixY)       piece = <Pawn whitesquare={black} whiteplayer={false}/>;
+    else if(x === bpawnSevenX && y === bpawnSevenY)   piece = <Pawn whitesquare={black} whiteplayer={false}/>;
+    else if(x === bpawnEightX && y === bpawnEightY)   piece = <Pawn whitesquare={black} whiteplayer={false}/>;
 
     else                                            piece = null;
     return piece;

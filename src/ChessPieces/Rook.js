@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { ItemTypes } from '../Constants';
 import { DragSource } from 'react-dnd';
 import WhiteRook_img from './WhiteRook.png';
+import BlackRook_img from './BlackRook.png';
 
 const rookSource = {
   beginDrag(props) {
@@ -20,7 +21,7 @@ function collect(connect, monitor) {
 class Rook extends Component {
     componentDidMount() {
     const img = new Image();
-    img.src = WhiteRook_img;
+    img.src = this.props.whiteplayer ? WhiteRook_img : BlackRook_img;
     img.onload = () => this.props.connectDragPreview(img);
   }
   render() {
@@ -28,7 +29,7 @@ class Rook extends Component {
     return connectDragSource(
       <div style={{
           fontSize:'65px',
-          }}>{this.props.white ? '♖' : '♜'}</div>
+          }}>{this.props.whitesquare ? '♖' : '♜'}</div>
     );
   }
 }
