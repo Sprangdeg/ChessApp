@@ -54,6 +54,6 @@ class App extends Component {
 
 export default connect(store => {
   return {
-    WhiteRookOne: store.WhiteRookOne
+    WhiteRookOne: store.move.WhiteRookOne
   };
 })(App);

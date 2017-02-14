@@ -36,6 +36,7 @@ renderPiece(x, y) {
 
     //***********  WHITE  ***************/
     const [wrookOneX, wrookOneY] = this.props.WhiteRookOnePosition;
+	/*
     const [wrookTwoX, wrookTwoY] = this.props.WhiteRookTwoPosition;
 
     const [wknightOneX, wknightOneY] = this.props.WhiteKnightOnePosition; 
@@ -55,8 +56,9 @@ renderPiece(x, y) {
     const [wpawnSixX, wpawnSixY] = this.props.WhitePawnSixPosition;
     const [wpawnSevenX, wpawnSevenY] = this.props.WhitePawnSevenPosition;
     const [wpawnEightX, wpawnEightY] = this.props.WhitePawnEightPosition;
-
+*/
     //***********  BLACK  ***************/
+	/*
     const [brookOneX, brookOneY] = this.props.BlackRookOnePosition;
     const [brookTwoX, brookTwoY] = this.props.BlackRookTwoPosition;
 
@@ -77,11 +79,13 @@ renderPiece(x, y) {
     const [bpawnSixX, bpawnSixY] = this.props.BlackPawnSixPosition;
     const [bpawnSevenX, bpawnSevenY] = this.props.BlackPawnSevenPosition;
     const [bpawnEightX, bpawnEightY] = this.props.BlackPawnEightPosition;
+	*/
 
 
     let piece = null;
                                               //The unicode black piece looks bad on white square
    	if(x === wrookOneX && y === wrookOneY)            piece = <Rook whitesquare={white} whiteplayer={true}/>;
+	/*
     else if(x === wrookTwoX && y === wrookTwoY)       piece = <Rook whitesquare={white} whiteplayer={true}/>;
     else if(x === wknightOneX && y === wknightOneY)   piece = <Knight whitesquare={white} whiteplayer={true}/>;
     else if(x === wknightTwoX && y === wknightTwoY)   piece = <Knight whitesquare={white} whiteplayer={true}/>;
@@ -114,7 +118,7 @@ renderPiece(x, y) {
     else if(x === bpawnSixX && y === bpawnSixY)       piece = <Pawn whitesquare={black} whiteplayer={false}/>;
     else if(x === bpawnSevenX && y === bpawnSevenY)   piece = <Pawn whitesquare={black} whiteplayer={false}/>;
     else if(x === bpawnEightX && y === bpawnEightY)   piece = <Pawn whitesquare={black} whiteplayer={false}/>;
-
+*/
     else                                            piece = null;
     return piece;
 }
@@ -149,7 +153,7 @@ handleSquareClick(toX, toY) {
 
 export default DragDropContext(HTML5Backend)(Board);
 Board.propTypes = {
-  WhiteKnightOnePosition: PropTypes.arrayOf(
+  WhiteRookOnePosition: PropTypes.arrayOf(
     PropTypes.number.isRequired
   ).isRequired
 };
