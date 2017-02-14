@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Board from './Board.js';
+import { connect } from "react-redux"
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <div className="App-header"> <div style={{fontSize: '3em', display: 'inline-block', position: 'relative', top: '-20px'}}>REACT CHESS</div> <img src={logo} className="App-logo" alt="logo" /> </div>             
-        <Board WhiteRookOnePosition=  {this.props.WhiteRookOnePosition}
-               WhiteKnightOnePosition={this.props.WhiteKnightOnePosition} 
+        <Board WhiteRookOnePosition=  {this.props.WhiteRookOne}
+/*               WhiteKnightOnePosition={this.props.WhiteKnightOnePosition} 
                WhiteBishopOnePosition={this.props.WhiteBishopOnePosition} 
                WhiteKingPosition=     {this.props.WhiteKingPosition} 
                WhiteQueenPosition=    {this.props.WhiteQueenPosition}
@@ -42,7 +43,7 @@ class App extends Component {
                BlackPawnFivePosition= {this.props.BlackPawnFivePosition} 
                BlackPawnSixPosition=  {this.props.BlackPawnSixPosition} 
                BlackPawnSevenPosition={this.props.BlackPawnSevenPosition} 
-               BlackPawnEightPosition={this.props.BlackPawnEightPosition}
+               BlackPawnEightPosition={this.props.BlackPawnEightPosition}*/
         />,
       </div>
     );
@@ -51,4 +52,8 @@ class App extends Component {
 
 
 
-export default App;
+export default connect(store => {
+  return {
+    WhiteRookOne: store.WhiteRookOne
+  };
+})(App);

@@ -1,3 +1,4 @@
+let WhiteRookOnePosition=[0, 0]; 
 let WhiteKnightOnePosition=[1, 0];
 let WhiteBishopOnePosition=[2, 0]; 
 let WhiteKingPosition=[3, 0]; 
@@ -49,7 +50,7 @@ export function canMoveKnight(toX, toY) {
 
 function emitChange() {
   observer(WhiteKnightOnePosition);
-  observer(WhiteBishopOnePosition);
+ /* observer(WhiteBishopOnePosition);
   observer(WhiteKingPosition);
   observer(WhiteQueenPosition);
   observer(WhiteBishopTwoPosition);
@@ -79,7 +80,7 @@ function emitChange() {
   observer(BlackPawnFivePosition);
   observer(BlackPawnSixPosition);
   observer(BlackPawnSevenPosition);
-  observer(BlackPawnEightPosition);
+  observer(BlackPawnEightPosition);*/
 }
 
 export function observe(o) {

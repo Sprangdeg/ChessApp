@@ -3,13 +3,15 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 import { observe } from './Game';
+import { Provider } from "react-redux"
+import store from "./Store"
 
-var rootEl = document.getElementById('root');
+const rootEl = document.getElementById('root');
 
-  observe(knightPosition =>
-    ReactDOM.render(
-      <App knightPosition={knightPosition} />,
-      rootEl
-    )
-  );
-// ReactDOM.render(<App />, document.getElementById('root')); 
+
+ReactDOM.render(<Provider store={store}>
+                  <App />
+                </Provider>, rootEl
+              );
+
+//ReactDOM.render(<App />, document.getElementById('root')); 
