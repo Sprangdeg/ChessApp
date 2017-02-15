@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { ItemTypes } from '../Constants';
+import { STRINGTYPES } from '../Constants';
 import { DragSource } from 'react-dnd';
 import WhiteQueen_img from './WhiteQueen.png';
 import BlackQueen_img from './BlackQueen.png';
@@ -29,7 +29,7 @@ class Queen extends Component {
     return connectDragSource(
       <div style={{
           fontSize:'65px',
-          }}>{this.props.whitesquare ? '♕' : '♛'}</div>
+          }}>{this.props.whiteplayer ? '♕' : '♛'}</div>
     );
   }
 }
@@ -40,7 +40,7 @@ Queen.propTypes = {
   isDragging: PropTypes.bool.isRequired
 };
 
-export default DragSource(ItemTypes.QUEEN, queenSource, collect)(Queen);
+export default DragSource(STRINGTYPES.QUEEN, queenSource, collect)(Queen);
 
 /*var Knight = function (props) {
         return <div style={{

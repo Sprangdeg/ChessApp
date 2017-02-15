@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { ItemTypes } from '../Constants';
+import { STRINGTYPES } from '../Constants';
 import { DragSource } from 'react-dnd';
 import WhiteBishop_img from './WhiteBishop.png';
 import BlackBishop_img from './BlackBishop.png';
@@ -29,7 +29,7 @@ class Bishop extends Component {
     return connectDragSource(
       <div style={{
           fontSize:'65px',
-          }}>{this.props.whitesquare ? '♗' : '♝'}</div>
+          }}>{this.props.whiteplayer ? '♗' : '♝'}</div>
     );
   }
 }
@@ -40,7 +40,7 @@ Bishop.propTypes = {
   isDragging: PropTypes.bool.isRequired
 };
 
-export default DragSource(ItemTypes.BISHOP, bishopSource, collect)(Bishop);
+export default DragSource(STRINGTYPES.BISHOP, bishopSource, collect)(Bishop);
 
 /*var Knight = function (props) {
         return <div style={{

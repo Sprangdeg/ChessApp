@@ -1,7 +1,8 @@
-export function move(piece, toPosition){
+export function move(piece, moveTo, moveFrom){
     return {
         type: "MOVE",
-        toPosition: toPosition,
+        moveTo: moveTo,
+        moveFrom: moveFrom,
         piece: piece
     }
 }

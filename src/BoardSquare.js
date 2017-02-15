@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Square from './Square';
 import { canMoveKnight, moveKnight } from './Game';
-import { ItemTypes } from './Constants';
+import { STRINGTYPES } from './Constants';
 import { DropTarget } from 'react-dnd';
 
 const squareTarget = {
@@ -51,9 +51,9 @@ class BoardSquare extends Component {
         <Square black={black}>
           {this.props.children}
         </Square>
-        {isOver && !canDrop && this.renderOverlay('red')}
-        {!isOver && canDrop && this.renderOverlay('yellow')}
-        {isOver && canDrop && this.renderOverlay('green')}
+        {isOver && !canDrop && this.renderOverlay('#c4645a')}
+        {!isOver && canDrop && this.renderOverlay('#ccc43b')}
+        {isOver && canDrop && this.renderOverlay('#70db46')}
       </div>
     );
   }
@@ -66,4 +66,4 @@ BoardSquare.propTypes = {
   canDrop: PropTypes.bool.isRequired
 };
 
-export default DropTarget(ItemTypes.KNIGHT, squareTarget, collect)(BoardSquare);
+export default DropTarget(STRINGTYPES.KNIGHT, squareTarget, collect)(BoardSquare);

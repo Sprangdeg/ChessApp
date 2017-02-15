@@ -3,8 +3,8 @@ import React, { Component, PropTypes } from 'react';
 export default class Square extends Component {
   render() {
     const { black } = this.props;
-    const fill = black ? 'black' : 'white';
-    const stroke = black ? 'white' : 'black';
+    const fill = black ? '#966d4c' : '#f0d9b5';
+    const stroke = black ? 'black' : 'black';
 
     return (
       <div style={{
