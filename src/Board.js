@@ -24,13 +24,13 @@ class Board extends Component {
            onClick={() => this.handleSquareClick(x, y)}>
       <BoardSquare x={x}
                    y={y}>
-        {this.renderPiece(x, y, piece, color)}
+        {this.renderPiece(piece, color)}
       </BoardSquare>
       </div>
     );
   }
 
-renderPiece(x, y, piece, color) {
+renderPiece(piece, color) {
     const whitePlayer = color === COLORS.WHITE;
 
     switch (piece) {

@@ -9,7 +9,7 @@ class App extends Component {
     console.log(this.props);
     return (
       <div className="App">
-        <div className="App-header"> <div style={{fontSize: '3em', display: 'inline-block', position: 'relative', top: '-20px'}}>REACT CHESS</div> <img src={logo} className="App-logo" alt="logo" /> </div>             
+        <div className="App-header"> <div style={{fontSize: '3em', display: 'inline-block', position: 'relative', top: '-20px'}}>PRIME CHESS</div> <img src={logo} className="App-logo" alt="logo" /> </div>             
         <Board board={this.props.board}/>,
       </div>
     );
