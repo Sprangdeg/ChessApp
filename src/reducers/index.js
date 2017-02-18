@@ -1,6 +1,6 @@
 import { combineReducers } from "redux"
-import moveReducer from "./moveReducer"
+import chessReducer from "./chessReducer"
 
 export default combineReducers({
-    move: moveReducer
+    chess: chessReducer
 })

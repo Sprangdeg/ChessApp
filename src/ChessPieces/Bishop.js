@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { STRINGTYPES } from '../Constants';
+import { STRINGTYPES, TYPES, COLORS } from '../Constants';
 import { DragSource } from 'react-dnd';
-import WhiteBishop_img from './WhiteBishop.png';
-import BlackBishop_img from './BlackBishop.png';
+import WhiteBishop_img from './images/WhiteBishop.png';
+import BlackBishop_img from './images/BlackBishop.png';
 
 const bishopSource = {
   beginDrag(props) {
-    return {};
+    let colour = props.whiteplayer ? COLORS.WHITE : COLORS.BLACK;
+    return {type:TYPES.BISHOP, color: colour, x: props.posX, y:props.posY};
   }
 };
 
@@ -19,7 +20,7 @@ function collect(connect, monitor) {
 }
 
 class Bishop extends Component {
-    componentDidMount() {
+  componentDidMount() {
     const img = new Image();
     img.src = this.props.whiteplayer ? WhiteBishop_img : BlackBishop_img;
     img.onload = () => this.props.connectDragPreview(img);

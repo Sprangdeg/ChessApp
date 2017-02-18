@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { moveKnight, canMoveKnight } from './Game'
+import { move, canMove } from './Game'
 import Square from './Square';
 import Knight from './ChessPieces/Knight';
 import King from './ChessPieces/King';
@@ -23,34 +23,35 @@ class Board extends Component {
            style={{ width: '80px', height: '80px' }}
            onClick={() => this.handleSquareClick(x, y)}>
       <BoardSquare x={x}
-                   y={y}>
-        {this.renderPiece(piece, color)}
+                   y={y}
+                   move={this.props.move}>
+        {this.renderPiece(piece, color, x, y)}
       </BoardSquare>
       </div>
     );
   }
 
-renderPiece(piece, color) {
+renderPiece(piece, color, x, y) {
     const whitePlayer = color === COLORS.WHITE;
 
     switch (piece) {
        case TYPES.PAWN: {
-          return <Pawn whiteplayer={whitePlayer}/>;
+          return <Pawn whiteplayer={whitePlayer} posX={x} posY={y}/>;
        }
       case TYPES.BISHOP: {
-          return <Bishop whiteplayer={whitePlayer}/>;
+          return <Bishop whiteplayer={whitePlayer} posX={x} posY={y}/>;
        }
       case TYPES.KNIGHT: {
-          return <Knight whiteplayer={whitePlayer}/>;
+          return <Knight whiteplayer={whitePlayer} posX={x} posY={y}/>;
        }
       case TYPES.QUEEN: {
-          return <Queen whiteplayer={whitePlayer}/>;
+          return <Queen whiteplayer={whitePlayer} posX={x} posY={y}/>;
        }
       case TYPES.KING: {
-          return <King whiteplayer={whitePlayer}/>;
+          return <King whiteplayer={whitePlayer} posX={x} posY={y}/>;
        }
       case TYPES.ROOK: {
-          return <Rook whiteplayer={whitePlayer}/>;
+          return <Rook whiteplayer={whitePlayer} posX={x} posY={y}/>;
        }
        default: return null;
     }
@@ -61,14 +62,15 @@ renderPiece(piece, color) {
 
 
 handleSquareClick(toX, toY) {
-  if (canMoveKnight(toX, toY)) {
-    moveKnight(toX, toY);
-  }
+  //I can do things if you click the square
+  //alert("You clicked");
 }
 
   render() {
     const squares = [];
     var board = this.props.board;
+    var moves = this.props.move;
+
     for (let i = 0; i < 64; i++) {
       if(board[i] === TYPES.EMPTY){
          squares.push(this.renderSquare(i, TYPES.EMPTY, TYPES.EMPTY));

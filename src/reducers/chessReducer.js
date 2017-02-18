@@ -49,16 +49,10 @@ export default function reducer(state = {
                         return item;
                     }
                     else if (index === action.moveTo) {
-                        return {
-                            ...item,
-                            ...action.piece
-                        };
+                        return action.piece;
                     }
                     else if (index === action.moveFrom) {
-                        return {
-                            ...item,
-                            ...TYPES.EMPTY
-                        }
+                        return TYPES.EMPTY;
                     }
                     else {
                         return item;

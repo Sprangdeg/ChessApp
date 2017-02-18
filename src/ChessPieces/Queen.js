@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { STRINGTYPES } from '../Constants';
+import { STRINGTYPES, TYPES, COLORS } from '../Constants';
 import { DragSource } from 'react-dnd';
-import WhiteQueen_img from './WhiteQueen.png';
-import BlackQueen_img from './BlackQueen.png';
+import WhiteQueen_img from './images/WhiteQueen.png';
+import BlackQueen_img from './images/BlackQueen.png';
 
 const queenSource = {
   beginDrag(props) {
-    return {};
+    let colour = props.whiteplayer ? COLORS.WHITE : COLORS.BLACK;
+    return {type:TYPES.QUEEN, color: colour, x: props.posX, y:props.posY};
   }
 };
 
@@ -19,7 +20,7 @@ function collect(connect, monitor) {
 }
 
 class Queen extends Component {
-    componentDidMount() {
+  componentDidMount() {
     const img = new Image();
     img.src = this.props.whiteplayer ? WhiteQueen_img: BlackQueen_img;
     img.onload = () => this.props.connectDragPreview(img);

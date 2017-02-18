@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { STRINGTYPES } from '../Constants';
+import { STRINGTYPES, TYPES, COLORS } from '../Constants';
 import { DragSource } from 'react-dnd';
-import WhiteKing_img from './WhiteKing.png';
-import BlackKing_img from './BlackKing.png';
+import WhiteKing_img from './images/WhiteKing.png';
+import BlackKing_img from './images/BlackKing.png';
 
 const kingSource = {
   beginDrag(props) {
-    return {};
+    let colour = props.whiteplayer ? COLORS.WHITE : COLORS.BLACK;
+    return {type:TYPES.KING, color: colour, x: props.posX, y:props.posY};
   }
 };
 
@@ -19,7 +20,7 @@ function collect(connect, monitor) {
 }
 
 class King extends Component {
-    componentDidMount() {
+  componentDidMount() {
     const img = new Image();
     img.src = this.props.whiteplayer ? WhiteKing_img : BlackKing_img;
     img.onload = () => this.props.connectDragPreview(img);

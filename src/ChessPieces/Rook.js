@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { STRINGTYPES } from '../Constants';
+import { STRINGTYPES, TYPES, COLORS } from '../Constants';
 import { DragSource } from 'react-dnd';
-import WhiteRook_img from './WhiteRook.png';
-import BlackRook_img from './BlackRook.png';
+import WhiteRook_img from './images/WhiteRook.png';
+import BlackRook_img from './images/BlackRook.png';
 
 const rookSource = {
   beginDrag(props) {
-    return {};
+    let colour = props.whiteplayer ? COLORS.WHITE : COLORS.BLACK;
+    return {type:TYPES.ROOK, color: colour, x: props.posX, y:props.posY};
   }
 };
 
@@ -19,7 +20,7 @@ function collect(connect, monitor) {
 }
 
 class Rook extends Component {
-    componentDidMount() {
+  componentDidMount() {
     const img = new Image();
     img.src = this.props.whiteplayer ? WhiteRook_img : BlackRook_img;
     img.onload = () => this.props.connectDragPreview(img);

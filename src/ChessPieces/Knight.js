@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { STRINGTYPES } from '../Constants';
+import { STRINGTYPES, TYPES, COLORS } from '../Constants';
 import { DragSource } from 'react-dnd';
-import WhiteKnight_img from './WhiteKnight.png';
-import BlackKnight_img from './BlackKnight.png';
+import WhiteKnight_img from './images/WhiteKnight.png';
+import BlackKnight_img from './images/BlackKnight.png';
 
 const knightSource = {
   beginDrag(props) {
-    return {};
+    let colour = props.whiteplayer ? COLORS.WHITE : COLORS.BLACK;
+    return {type:TYPES.KNIGHT, color: colour, x: props.posX, y:props.posY};
   }
 };
 
@@ -19,7 +20,6 @@ function collect(connect, monitor) {
 }
 
 class Knight extends Component {
-  
   componentDidMount() {
     const img = new Image();
     img.src = this.props.whiteplayer ? WhiteKnight_img : BlackKnight_img;

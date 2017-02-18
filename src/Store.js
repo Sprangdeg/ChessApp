@@ -5,6 +5,8 @@ const logger = (store) => (next) => (action) => {
     console.log("action fired ", action);
 }
 
+
+
 const error = (store) => (next) => (action) => {
     try{
         next(action);
@@ -14,12 +16,11 @@ const error = (store) => (next) => (action) => {
     }
 }
 
-
-
+const store = createStore(reducer, middleware);
 
 const middleware = applyMiddleware(logger);
 
-export default createStore(reducer, middleware);
+export default store;
 
 
 //store.subscribe(() => {console.log("store changed ", store.getState())});
