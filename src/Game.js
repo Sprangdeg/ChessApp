@@ -6,6 +6,16 @@ export function canMove(piece, color, moveFrom, moveTo, board) {
   const dx = toX - fromX;
   const dy = toY - fromY;
 
+  //Used for checking blocking pieces.
+  //You don't want to start on the first square since it would mean it's blocking itself
+  let x0 = fromX;
+  let y0 = fromY;
+  if(x0 != toX)
+    x0 = (toX - x0) > 0 ? x0 + 1 : x0 - 1;
+  if(y0 != toY)
+    y0 = (toY - y0) > 0 ? y0 + 1 : y0 - 1;
+  
+  
   if(dx === 0 && dy === 0)
     return false;
 
@@ -13,34 +23,33 @@ export function canMove(piece, color, moveFrom, moveTo, board) {
   if(otherPiece != TYPES.EMPTY && getColor(otherPiece) === color)
     return false;
 
-  if(piece != TYPES.KNIGHT && hasBlockingPiece(moveFrom, moveTo, board))
-    return false;
+  //if(piece != TYPES.KNIGHT && hasBlockingPiece(fromX, fromY, toX, toY, board))
+  //  return false;
 
   switch(piece){
     case TYPES.KNIGHT:{
         return knightMovement(dx, dy);
     }
     case TYPES.ROOK:{
-        return rookMovement(dx, dy, board);
+        return rookMovement(dx, dy, board) && !hasBlockingPiece(x0, y0, toX, toY, board);
     }
     case TYPES.KING:{
-        return kingMovement(dx, dy);
+        return kingMovement(dx, dy) && !hasBlockingPiece(x0, y0, toX, toY, board);
     }
     case TYPES.PAWN:{
-        return pawnMovement(dx, dy, fromY, color);
+        return pawnMovement(dx, dy, fromY, color) && !hasBlockingPiece(x0, y0, toX, toY, board);
     }
     case TYPES.QUEEN:{
-        return rookMovement(dx, dy) || bishopMovement(dx, dy);
+        return (rookMovement(dx, dy) || bishopMovement(dx, dy)) && !hasBlockingPiece(x0, y0, toX, toY, board);
     }
     case TYPES.BISHOP:{
-        return bishopMovement(dx, dy);
+        return bishopMovement(dx, dy) && !hasBlockingPiece(x0, y0, toX, toY, board);
     }
     default: return false;
   }
 }
 
 function knightMovement(dx, dy){
-
     return (Math.abs(dx) === 2 && Math.abs(dy) === 1) ||
            (Math.abs(dx) === 1 && Math.abs(dy) === 2);
 }
@@ -87,15 +96,24 @@ function getType(piece){
     return piece % COLORS.WHITE === 0 ? piece/COLORS.WHITE : piece/COLORS.BLACK;
 }
 
- function hasBlockingPiece(moveFrom, moveTo, board){
-    const [fromX, fromY] = moveFrom;
-    const [toX, toY] = moveTo;
-    const dx = toX - fromX;
-    const dy = toY - fromY;
+function hasBlockingPiece(x0, y0, x1, y1, board){
+    if(x0 === x1 && y0 === y1){
+        return false;
+    }
+    else if(board[getIndex([x0, y0])] !== TYPES.EMPTY){
+        return true;
+    }
+    else{
+        if(x0 != x1)
+            x0 = (x1 - x0) > 0 ? x0 + 1 : x0 - 1;
+        if(y0 != y1)
+            y0 = (y1 - y0) > 0 ? y0 + 1 : y0 - 1;
+        return hasBlockingPiece(x0, y0, x1, y1, board);
+    }
 
     //Hämta alla arrayindex mellan moveFrom och moveTo
 
- }
+}
 
 //
 /*  GAME LAYOUT
