@@ -1,9 +1,6 @@
 import { TYPES, COLORS } from "./Constants"
-export function move(toX, toY) {
 
-}
-
-export function canMove(piece, color, moveFrom, moveTo) {
+export function canMove(piece, color, moveFrom, moveTo, board) {
   const [fromX, fromY] = moveFrom;
   const [toX, toY] = moveTo;
   const dx = toX - fromX;
@@ -12,12 +9,19 @@ export function canMove(piece, color, moveFrom, moveTo) {
   if(dx === 0 && dy === 0)
     return false;
 
+  var otherPiece = board[getIndex(moveTo)];
+  if(otherPiece != TYPES.EMPTY && getColor(otherPiece) === color)
+    return false;
+
+  if(piece != TYPES.KNIGHT && hasBlockingPiece(moveFrom, moveTo, board))
+    return false;
+
   switch(piece){
     case TYPES.KNIGHT:{
         return knightMovement(dx, dy);
     }
     case TYPES.ROOK:{
-        return rookMovement(dx, dy);
+        return rookMovement(dx, dy, board);
     }
     case TYPES.KING:{
         return kingMovement(dx, dy);
@@ -36,11 +40,12 @@ export function canMove(piece, color, moveFrom, moveTo) {
 }
 
 function knightMovement(dx, dy){
+
     return (Math.abs(dx) === 2 && Math.abs(dy) === 1) ||
            (Math.abs(dx) === 1 && Math.abs(dy) === 2);
 }
 
-function rookMovement(dx, dy){
+function rookMovement(dx, dy, board, moveFrom, moveTo){
     return (Math.abs(dx) > 0 && Math.abs(dy) === 0) ||
            (Math.abs(dx) === 0 && Math.abs(dy) > 0);
 }
@@ -59,18 +64,38 @@ function pawnMovement(dx, dy, fromY, color){
     }
     else{
         var canGo = fromY === 6 ? Math.abs(dx) === 0 && Math.abs(dy) <= 2 && dy < 0 : Math.abs(dx) === 0 && Math.abs(dy) <= 1 && dy < 0;
-    }
-    
-    
+    }   
     return canGo;    
 }
 
+function getIndex(coord){
+    const [x, y] = coord;
+    return x + y*8; 
+}
 
 function getPosition(boardIndex){
     let Column = boardIndex % 8;
     let Row = Math.floor(boardIndex / 8);
     return [Column, Row]
 }
+
+function getColor(piece){
+    return piece % COLORS.WHITE === 0 ? COLORS.WHITE : COLORS.BLACK;
+}
+
+function getType(piece){
+    return piece % COLORS.WHITE === 0 ? piece/COLORS.WHITE : piece/COLORS.BLACK;
+}
+
+ function hasBlockingPiece(moveFrom, moveTo, board){
+    const [fromX, fromY] = moveFrom;
+    const [toX, toY] = moveTo;
+    const dx = toX - fromX;
+    const dy = toY - fromY;
+
+    //Hämta alla arrayindex mellan moveFrom och moveTo
+
+ }
 
 //
 /*  GAME LAYOUT

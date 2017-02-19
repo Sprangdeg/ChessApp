@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Square from './Square';
-import { canMove, move } from './Game';
+import { canMove } from './Game';
 import { STRINGTYPES } from './Constants';
 import { DropTarget } from 'react-dnd';
 import { moveAction } from "./actions/chessAction"
@@ -9,7 +9,7 @@ import { moveAction } from "./actions/chessAction"
 const squareTarget = {
   canDrop(props, monitor) {
     const source = monitor.getItem();
-   return canMove(source.type, source.color, [source.x, source.y], [props.x, props.y]);
+   return canMove(source.type, source.color, [source.x, source.y], [props.x, props.y], props.board);
   },
 
   drop(props, monitor) {

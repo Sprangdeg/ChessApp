@@ -30,7 +30,7 @@ class Bishop extends Component {
     return connectDragSource(
       <div style={{
           fontSize:'65px',
-          }}>{this.props.whiteplayer ? '♗' : '♝'}</div>
+          }}>{this.props.whiteplayer ? '♗' : '♝'}</div>,
     );
   }
 }

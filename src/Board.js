@@ -24,7 +24,8 @@ class Board extends Component {
            onClick={() => this.handleSquareClick(x, y)}>
       <BoardSquare x={x}
                    y={y}
-                   move={this.props.move}>
+                   move={this.props.move}
+                   board={this.props.board}>
         {this.renderPiece(piece, color, x, y)}
       </BoardSquare>
       </div>
