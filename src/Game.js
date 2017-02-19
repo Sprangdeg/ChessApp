@@ -1,23 +1,69 @@
-import { TYPES } from "./Constants"
+import { TYPES, COLORS } from "./Constants"
 export function move(toX, toY) {
 
 }
 
-export function canMove(piece, moveFrom, moveTo) {
+export function canMove(piece, color, moveFrom, moveTo) {
   const [fromX, fromY] = moveFrom;
   const [toX, toY] = moveTo;
   const dx = toX - fromX;
   const dy = toY - fromY;
 
+  if(dx === 0 && dy === 0)
+    return false;
+
   switch(piece){
     case TYPES.KNIGHT:{
-        return (Math.abs(dx) === 2 && Math.abs(dy) === 1) ||
-               (Math.abs(dx) === 1 && Math.abs(dy) === 2);
+        return knightMovement(dx, dy);
     }
-    default: return true;
+    case TYPES.ROOK:{
+        return rookMovement(dx, dy);
+    }
+    case TYPES.KING:{
+        return kingMovement(dx, dy);
+    }
+    case TYPES.PAWN:{
+        return pawnMovement(dx, dy, fromY, color);
+    }
+    case TYPES.QUEEN:{
+        return rookMovement(dx, dy) || bishopMovement(dx, dy);
+    }
+    case TYPES.BISHOP:{
+        return bishopMovement(dx, dy);
+    }
+    default: return false;
   }
 }
 
+function knightMovement(dx, dy){
+    return (Math.abs(dx) === 2 && Math.abs(dy) === 1) ||
+           (Math.abs(dx) === 1 && Math.abs(dy) === 2);
+}
+
+function rookMovement(dx, dy){
+    return (Math.abs(dx) > 0 && Math.abs(dy) === 0) ||
+           (Math.abs(dx) === 0 && Math.abs(dy) > 0);
+}
+
+function bishopMovement(dx, dy){
+    return Math.abs(dx) === Math.abs(dy);
+}
+
+function kingMovement(dx, dy){
+    return Math.abs(dx) <= 1 && Math.abs(dy) <= 1;
+}
+
+function pawnMovement(dx, dy, fromY, color){
+    if(color === COLORS.WHITE){
+        var canGo = fromY === 1 ? Math.abs(dx) === 0 && Math.abs(dy) <= 2 && dy > 0 : Math.abs(dx) === 0 && Math.abs(dy) <= 1 && dy > 0;
+    }
+    else{
+        var canGo = fromY === 6 ? Math.abs(dx) === 0 && Math.abs(dy) <= 2 && dy < 0 : Math.abs(dx) === 0 && Math.abs(dy) <= 1 && dy < 0;
+    }
+    
+    
+    return canGo;    
+}
 
 
 function getPosition(boardIndex){

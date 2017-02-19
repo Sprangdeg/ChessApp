@@ -41,4 +41,4 @@ Pawn.propTypes = {
   isDragging: PropTypes.bool.isRequired
 };
 
-export default DragSource(STRINGTYPES.PAWN, pawnSource, collect)(Pawn);
+export default DragSource(STRINGTYPES.PIECE, pawnSource, collect)(Pawn);

@@ -69,7 +69,6 @@ handleSquareClick(toX, toY) {
   render() {
     const squares = [];
     var board = this.props.board;
-    var moves = this.props.move;
 
     for (let i = 0; i < 64; i++) {
       if(board[i] === TYPES.EMPTY){

@@ -19,7 +19,8 @@ export const STRINGTYPES = {
   BISHOP: "BISHOP",
   ROOK: "ROOK",
   QUEEN: "QUEEN",
-  KING: "KING"
+  KING: "KING",
+  PIECE: "PIECE"
 };
 
 

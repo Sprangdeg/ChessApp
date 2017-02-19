@@ -41,4 +41,4 @@ King.propTypes = {
   isDragging: PropTypes.bool.isRequired
 };
 
-export default DragSource(STRINGTYPES.KING, kingSource, collect)(King);
+export default DragSource(STRINGTYPES.PIECE, kingSource, collect)(King);

@@ -9,7 +9,7 @@ import { moveAction } from "./actions/chessAction"
 const squareTarget = {
   canDrop(props, monitor) {
     const source = monitor.getItem();
-   return canMove(source.type, [source.x, source.y], [props.x, props.y]);
+   return canMove(source.type, source.color, [source.x, source.y], [props.x, props.y]);
   },
 
   drop(props, monitor) {
@@ -70,4 +70,4 @@ BoardSquare.propTypes = {
   canDrop: PropTypes.bool.isRequired
 };
 
-export default DropTarget(STRINGTYPES.KNIGHT, squareTarget, collect)(BoardSquare);
+export default DropTarget(STRINGTYPES.PIECE, squareTarget, collect)(BoardSquare);
