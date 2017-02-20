@@ -37,7 +37,7 @@ export function canMove(piece, color, moveFrom, moveTo, board) {
         return kingMovement(dx, dy) && !hasBlockingPiece(x0, y0, toX, toY, board);
     }
     case TYPES.PAWN:{
-        return pawnMovement(dx, dy, fromY, color) && !hasBlockingPiece(x0, y0, toX, toY, board);
+        return pawnMovement(dx, dy, fromY, moveTo, color, board) && !hasBlockingPiece(x0, y0, toX, toY, board);
     }
     case TYPES.QUEEN:{
         return (rookMovement(dx, dy) || bishopMovement(dx, dy)) && !hasBlockingPiece(x0, y0, toX, toY, board);
@@ -67,14 +67,21 @@ function kingMovement(dx, dy){
     return Math.abs(dx) <= 1 && Math.abs(dy) <= 1;
 }
 
-function pawnMovement(dx, dy, fromY, color){
-    if(color === COLORS.WHITE){
-        var canGo = fromY === 1 ? Math.abs(dx) === 0 && Math.abs(dy) <= 2 && dy > 0 : Math.abs(dx) === 0 && Math.abs(dy) <= 1 && dy > 0;
-    }
-    else{
-        var canGo = fromY === 6 ? Math.abs(dx) === 0 && Math.abs(dy) <= 2 && dy < 0 : Math.abs(dx) === 0 && Math.abs(dy) <= 1 && dy < 0;
-    }   
+function pawnMovement(dx, dy, fromY, moveTo, color, board){
+        var canGo = fromY === 1 || fromY === 6 ? Math.abs(dx) === 0 && Math.abs(dy) <= 2 && movingForward(color, dy) : Math.abs(dx) === 0 && Math.abs(dy) <= 1 && movingForward(color, dy);
+        canGo = canGo || canPawnCapture(dx, dy, moveTo, color, board);  
     return canGo;    
+}
+
+function canPawnCapture(dx, dy, moveTo, color, board){
+    return ((dx === 1 || dx === -1) 
+            && (dy === 1|| dy === -1)
+            && (board[getIndex(moveTo)] !== TYPES.EMPTY && getColor(board[getIndex(moveTo)]) !== color)) 
+            && movingForward(color, dy);
+}
+
+function movingForward(color, dy){
+    return color === COLORS.WHITE ? dy > 0 : dy < 0; 
 }
 
 function getIndex(coord){
