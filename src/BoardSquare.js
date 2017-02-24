@@ -43,7 +43,7 @@ class BoardSquare extends Component {
   }
 
   render() {
-    const { x, y, connectDropTarget, isOver, canDrop, children } = this.props;
+    const { x, y, connectDropTarget, isOver, canDrop } = this.props;
     const black = (x + y) % 2 === 1;
 
  return connectDropTarget(
@@ -70,4 +70,4 @@ BoardSquare.propTypes = {
   canDrop: PropTypes.bool.isRequired
 };
 
-export default DropTarget(STRINGTYPES.PIECE, squareTarget, collect)(BoardSquare);
+export default DropTarget(STRINGTYPES.PIECE, squareTarget, collect)((BoardSquare));

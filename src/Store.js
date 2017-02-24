@@ -1,11 +1,10 @@
-import { applyMiddleware, combineReducers, createStore } from "redux"
+import { applyMiddleware, createStore } from "redux"
 import reducer from "./reducers"
 
 const logger = (store) => (next) => (action) => {
     console.log("action fired ", action);
+    return next(action);
 }
-
-
 
 const error = (store) => (next) => (action) => {
     try{
@@ -16,9 +15,8 @@ const error = (store) => (next) => (action) => {
     }
 }
 
+const middleware = applyMiddleware(logger, error);
 const store = createStore(reducer, middleware);
-
-const middleware = applyMiddleware(logger);
 
 export default store;
 

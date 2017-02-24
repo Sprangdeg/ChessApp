@@ -1,8 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { move, canMove } from './Game'
-import Square from './Square';
 import Knight from './ChessPieces/Knight';
 import King from './ChessPieces/King';
 import Queen from './ChessPieces/Queen';

@@ -3,7 +3,6 @@ import logo from './logo.svg';
 import './App.css';
 import Board from './Board.js';
 import { connect } from "react-redux"
-import { moveAction } from "./actions/chessAction"
 
 class App extends Component {
   componentWillMount(){

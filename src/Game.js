@@ -10,9 +10,9 @@ export function canMove(piece, color, moveFrom, moveTo, board) {
   //You don't want to start on the first square since it would mean it's blocking itself
   let x0 = fromX;
   let y0 = fromY;
-  if(x0 != toX)
+  if(x0 !== toX)
     x0 = (toX - x0) > 0 ? x0 + 1 : x0 - 1;
-  if(y0 != toY)
+  if(y0 !== toY)
     y0 = (toY - y0) > 0 ? y0 + 1 : y0 - 1;
   
   
@@ -20,7 +20,7 @@ export function canMove(piece, color, moveFrom, moveTo, board) {
     return false;
 
   var otherPiece = board[getIndex(moveTo)];
-  if(otherPiece != TYPES.EMPTY && getColor(otherPiece) === color)
+  if(otherPiece !== TYPES.EMPTY && getColor(otherPiece) === color)
     return false;
 
   //if(piece != TYPES.KNIGHT && hasBlockingPiece(fromX, fromY, toX, toY, board))
@@ -89,19 +89,20 @@ function getIndex(coord){
     return x + y*8; 
 }
 
-function getPosition(boardIndex){
+/*function getPosition(boardIndex){
     let Column = boardIndex % 8;
     let Row = Math.floor(boardIndex / 8);
     return [Column, Row]
-}
+}*/
 
 function getColor(piece){
     return piece % COLORS.WHITE === 0 ? COLORS.WHITE : COLORS.BLACK;
 }
 
+/*
 function getType(piece){
     return piece % COLORS.WHITE === 0 ? piece/COLORS.WHITE : piece/COLORS.BLACK;
-}
+}*/
 
 function hasBlockingPiece(x0, y0, x1, y1, board){
     if(x0 === x1 && y0 === y1){
@@ -111,9 +112,9 @@ function hasBlockingPiece(x0, y0, x1, y1, board){
         return true;
     }
     else{
-        if(x0 != x1)
+        if(x0 !== x1)
             x0 = (x1 - x0) > 0 ? x0 + 1 : x0 - 1;
-        if(y0 != y1)
+        if(y0 !== y1)
             y0 = (y1 - y0) > 0 ? y0 + 1 : y0 - 1;
         return hasBlockingPiece(x0, y0, x1, y1, board);
     }

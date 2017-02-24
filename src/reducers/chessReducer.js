@@ -1,4 +1,4 @@
-import {STARTING_BOARD, TYPES, COLORS} from '../Constants'
+import {TYPES, COLORS} from '../Constants'
 
 export default function reducer(state = {
     board: [TYPES.ROOK*COLORS.WHITE, 

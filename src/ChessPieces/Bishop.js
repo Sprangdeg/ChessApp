@@ -15,7 +15,6 @@ function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
     connectDragPreview: connect.dragPreview(),
-    isDragging: monitor.isDragging()
   }
 }
 
@@ -26,7 +25,7 @@ class Bishop extends Component {
     img.onload = () => this.props.connectDragPreview(img);
   }
   render() {
-    const { connectDragSource, isDragging } = this.props;
+    const { connectDragSource } = this.props;
     return connectDragSource(
       <div style={{
           fontSize:'65px',
@@ -38,7 +37,6 @@ class Bishop extends Component {
 Bishop.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   connectDragPreview: PropTypes.func.isRequired,
-  isDragging: PropTypes.bool.isRequired
 };
 
 export default DragSource(STRINGTYPES.PIECE, bishopSource, collect)(Bishop);
