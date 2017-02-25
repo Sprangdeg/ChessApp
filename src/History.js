@@ -4,7 +4,8 @@ import { TYPES, COLORS, getColor, getType } from './Constants';
 export default class History extends Component {
     renderHistoryPost(i, move){
         const bColor = i % 2 === 0 ? 'lightgrey' : 'white';
-       return (<li style={{backgroundColor: bColor}}> 
+       return (<li  key={i}
+                    style={{backgroundColor: bColor}}> 
                     <div style={{fontSize:'20px'}}> 
                         {renderPiece(move.piece)} {indexToChessNotation(move.moveFrom)} {indexToChessNotation(move.moveTo)} 
                     </div> 
