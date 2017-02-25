@@ -23,6 +23,13 @@ export const STRINGTYPES = {
   PIECE: "PIECE"
 };
 
+export function getColor(piece){
+    return piece % COLORS.WHITE === 0 ? COLORS.WHITE : COLORS.BLACK;
+}
+
+export function getType(piece){
+    return piece % COLORS.WHITE === 0 ? piece/COLORS.WHITE : piece/COLORS.BLACK;
+}
 
 export const BOARD = 
               [TYPES.ROOK*COLORS.WHITE, 

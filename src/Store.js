@@ -1,5 +1,6 @@
 import { applyMiddleware, createStore } from "redux"
 import reducer from "./reducers"
+import {createBranchableReducer, goToSpecificAction} from 'redux-branchable'
 
 const logger = (store) => (next) => (action) => {
     console.log("action fired ", action);
@@ -16,7 +17,7 @@ const error = (store) => (next) => (action) => {
 }
 
 const middleware = applyMiddleware(logger, error);
-const store = createStore(reducer, middleware);
+const store = createStore(createBranchableReducer(reducer), middleware);
 
 export default store;
 

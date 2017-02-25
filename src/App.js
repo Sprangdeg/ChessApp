@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Board from './Board.js';
+import History from './History.js'
 import { connect } from "react-redux"
 
 class App extends Component {
@@ -14,7 +15,12 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header"> <div style={{fontSize: '3em', display: 'inline-block', position: 'relative', top: '-20px'}}>PRIME CHESS</div> <img src={logo} className="App-logo" alt="logo" /> </div>             
-        <Board board={this.props.board} move={this.props.dispatch}/>,
+        <div style={{width: '50%', float: 'left'}}>
+          <Board board={this.props.board} move={this.props.dispatch}/>
+        </div>
+        <div style={{width: '50%', float: 'right'}}>
+          <History branch={this.props.branch}/>
+        </div>
       </div>
     );
   }
@@ -22,6 +28,7 @@ class App extends Component {
 
 export default connect(store => {
   return {
-    board: store.chess.board,
+    board: store.currentState.chess.board,
+    branch: store.branches[store.currentBranch]
   };
 })(App);
