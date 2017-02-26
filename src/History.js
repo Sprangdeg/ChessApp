@@ -6,7 +6,7 @@ export default class History extends Component {
         const bColor = i % 2 === 0 ? 'lightgrey' : 'white';
        return (<li  key={i}
                     style={{backgroundColor: bColor}}> 
-                    <div style={{fontSize:'20px'}}> 
+                    <div style={{fontSize:'20px', fontFamily: 'monospace'}}> 
                         {renderPiece(move.piece)} {indexToChessNotation(move.moveFrom)} {indexToChessNotation(move.moveTo)} 
                     </div> 
                 </li>);
