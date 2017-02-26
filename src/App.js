@@ -19,7 +19,7 @@ class App extends Component {
           <Board board={this.props.board} move={this.props.dispatch}/>
         </div>
         <div style={{width: '50%', float: 'right'}}>
-          <History branch={this.props.branch}/>
+          <History branch={this.props.branch} moveHistory={this.props.dispatch}/>
         </div>
       </div>
     );

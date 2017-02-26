@@ -1,6 +1,6 @@
 import { applyMiddleware, createStore } from "redux"
 import reducer from "./reducers"
-import {createBranchableReducer, goToSpecificAction} from 'redux-branchable'
+import {createBranchableReducer} from 'redux-branchable'
 
 const logger = (store) => (next) => (action) => {
     console.log("action fired ", action);

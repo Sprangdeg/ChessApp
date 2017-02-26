@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { TYPES, COLORS, getColor, getType } from './Constants';
+import {goToSpecificAction} from 'redux-branchable'
 
 export default class History extends Component {
     renderHistoryPost(i, move){
         const bColor = i % 2 === 0 ? 'lightgrey' : 'white';
        return (<li  key={i}
                     style={{backgroundColor: bColor, cursor:'pointer'}}
-                    onClick={() => this.handleHistoryClick(i)}> 
+                    onClick={() => this.handleHistoryClick(i, this.props.moveHistory)}> 
                     <div style={{fontSize:'20px', fontFamily: 'monospace'}}> 
                         {renderPiece(move.piece)} {indexToChessNotation(move.moveFrom)} {indexToChessNotation(move.moveTo)} 
                     </div> 
@@ -29,9 +30,9 @@ export default class History extends Component {
                 </div>);
     };
 
-    handleHistoryClick(i) {
+    handleHistoryClick(i, dispatch) {
     //I can do things if you click the history
-    alert("You clicked " + i);
+    dispatch(goToSpecificAction(0, i));
     }
 }
 
