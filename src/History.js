@@ -5,7 +5,8 @@ export default class History extends Component {
     renderHistoryPost(i, move){
         const bColor = i % 2 === 0 ? 'lightgrey' : 'white';
        return (<li  key={i}
-                    style={{backgroundColor: bColor}}> 
+                    style={{backgroundColor: bColor, cursor:'pointer'}}
+                    onClick={() => this.handleHistoryClick(i)}> 
                     <div style={{fontSize:'20px', fontFamily: 'monospace'}}> 
                         {renderPiece(move.piece)} {indexToChessNotation(move.moveFrom)} {indexToChessNotation(move.moveTo)} 
                     </div> 
@@ -27,6 +28,11 @@ export default class History extends Component {
                     </ol>
                 </div>);
     };
+
+    handleHistoryClick(i) {
+    //I can do things if you click the history
+    alert("You clicked " + i);
+    }
 }
 
 function renderPiece(piece){
