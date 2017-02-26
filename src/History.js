@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { TYPES, COLORS, getColor, getType } from './Constants';
-import {goToSpecificAction} from 'redux-branchable'
+import {goToSpecificAction, getBranchStateAsTree} from 'redux-branchable'
 
 export default class History extends Component {
-    renderHistoryPost(i, move){
-        const bColor = i % 2 === 0 ? 'lightgrey' : 'white';
-       return (<li  key={i}
+    renderHistoryPost(counter, branchIndex, actionIndex, move){
+        const bColor = counter % 2 === 0 ? 'lightgrey' : 'white';
+       return (<li  key={counter}
                     style={{backgroundColor: bColor, cursor:'pointer'}}
-                    onClick={() => this.handleHistoryClick(i, this.props.moveHistory)}> 
+                    onClick={() => handleHistoryClick(branchIndex, actionIndex, this.props.moveHistory)}> 
                     <div style={{fontSize:'20px', fontFamily: 'monospace'}}> 
                         {renderPiece(move.piece)} {indexToChessNotation(move.moveFrom)} {indexToChessNotation(move.moveTo)} 
                     </div> 
@@ -16,24 +16,44 @@ export default class History extends Component {
 
     render(){    
     const histories = [];
-    var branch = this.props.branch;
-
-    for (let i = 1; i < branch.actions.length; i++) {
-         histories.push(this.renderHistoryPost(i, branch.actions[i]));
+    var tree = getBranchStateAsTree(this.props.store.branches);
+    var historyArray = getCurrentHistoryAsArray(tree, historyArray);
+    
+    for(let i = 0; i<historyArray.length; i++){
+        histories.push(this.renderHistoryPost(i+1, historyArray[i].branch, historyArray[i].depth, historyArray[i].action));
     }
 
-        return (<div>
-                    <h2>History</h2>
-                    <ol style={{width: '8em'}}>
-                        {histories}
-                    </ol>
-                </div>);
+      return (<div>
+                  <h2>History</h2>
+                  <ol style={{width: '8em'}}>
+                      {histories}
+                   </ol>
+              </div>);
     };
+}
 
-    handleHistoryClick(i, dispatch) {
+function handleHistoryClick(branchIndex, actionIndex, dispatch) {
     //I can do things if you click the history
-    dispatch(goToSpecificAction(0, i));
+    dispatch(goToSpecificAction(branchIndex, actionIndex));
+}
+
+function getCurrentHistoryAsArray(node, histories = []){
+    if(node === undefined || node === null){
+        return histories;
     }
+    //The most recent moves are always the right most nodes in the tree, which is the last child
+    let nextNode = node.children[node.children.length-1];
+    if(isRoot(node)){   //Don't see the point of showing the inital state in the history
+        return getCurrentHistoryAsArray(nextNode, histories);
+    }
+    else{
+        histories.push({action: node.action, branch: node.branch, depth: node.depth})
+        return getCurrentHistoryAsArray(nextNode, histories);
+    }
+}
+
+function isRoot(node){
+    return node.action.type === "@@redux-branchable/INIT";
 }
 
 function renderPiece(piece){

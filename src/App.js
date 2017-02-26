@@ -19,7 +19,7 @@ class App extends Component {
           <Board board={this.props.board} move={this.props.dispatch}/>
         </div>
         <div style={{width: '50%', float: 'right'}}>
-          <History branch={this.props.branch} moveHistory={this.props.dispatch}/>
+          <History store={this.props.store} moveHistory={this.props.dispatch}/>
         </div>
       </div>
     );
@@ -29,6 +29,7 @@ class App extends Component {
 export default connect(store => {
   return {
     board: store.currentState.chess.board,
-    branch: store.branches[store.currentBranch]
+    //branch: store.branches[store.currentBranch]
+    store: store,
   };
 })(App);
