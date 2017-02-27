@@ -17,6 +17,15 @@ export function enPassantAction(piece, color, moveFrom, moveTo, emptySquare){
     }
 }
 
+export function promotion(piece, color, moveFrom, moveTo){
+    return {
+        type: "PROMOTION",
+        moveTo: transformToIndex(moveTo),
+        moveFrom: transformToIndex(moveFrom),
+        piece: combineTypeColor(piece, color)        
+    }
+}
+
 function transformToIndex(coord){
     const [x, y] = coord;
     return x + y*8; 

@@ -60,6 +60,26 @@ export default function reducer(state = {
                 })
             }
         }
+        case "PROMOTION": {
+            return {
+                ...state,
+                board: state.board.map((item, index) => {
+                    if (index !== action.moveFrom && index !== action.moveTo) {
+                        // This isn't the item we care about - keep it as-is
+                        return item;
+                    }
+                    else if (index === action.moveTo) {
+                        return action.piece;
+                    }
+                    else if (index === action.moveFrom) {
+                        return TYPES.EMPTY;
+                    }
+                    else {
+                        return item;
+                    }
+                })
+            }
+        }
         case "ENPASSANT":{
             return {
                 ...state,

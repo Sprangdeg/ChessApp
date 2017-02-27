@@ -3,7 +3,7 @@ import Square from './Square';
 import { canMove } from './Game';
 import { STRINGTYPES, TYPES, getIndex, COLORS } from './Constants';
 import { DropTarget } from 'react-dnd';
-import { moveAction, enPassantAction } from "./actions/chessAction"
+import { moveAction, enPassantAction, promotion } from "./actions/chessAction"
 
 
 const squareTarget = {
@@ -21,6 +21,9 @@ const squareTarget = {
     if(source.type === TYPES.PAWN && moveEnPassant(moveFrom, moveTo, props.board)){
         const emptySquare = source.color === COLORS.WHITE ? [props.x, props.y-1] : [props.x, props.y+1]
         props.move(enPassantAction(source.type, source.color, moveFrom, moveTo, emptySquare))
+    }
+    else if(source.type === TYPES.PAWN && (props.y === 7 || props.y === 0)){
+      props.move(promotion(TYPES.QUEEN, source.color, moveFrom, moveTo));
     }
     else{
       props.move(moveAction(source.type, source.color, moveFrom, moveTo));
