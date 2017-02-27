@@ -1,22 +1,43 @@
 import React, { Component, PropTypes } from 'react';
 import Square from './Square';
 import { canMove } from './Game';
-import { STRINGTYPES } from './Constants';
+import { STRINGTYPES, TYPES, getIndex, COLORS } from './Constants';
 import { DropTarget } from 'react-dnd';
-import { moveAction } from "./actions/chessAction"
+import { moveAction, enPassantAction } from "./actions/chessAction"
 
 
 const squareTarget = {
   canDrop(props, monitor) {
     const source = monitor.getItem();
-   return canMove(source.type, source.color, [source.x, source.y], [props.x, props.y], props.board);
+    const moveFrom = [source.x, source.y];
+    const moveTo = [props.x, props.y];
+    return canMove(source.type, source.color, moveFrom, moveTo, props.board, props.history);
   },
 
   drop(props, monitor) {
     const source = monitor.getItem();
-    props.move(moveAction(source.type, source.color, [source.x, source.y], [props.x, props.y]));
+    const moveFrom = [source.x, source.y];
+    const moveTo = [props.x, props.y];
+    if(source.type === TYPES.PAWN && moveEnPassant(moveFrom, moveTo, props.board)){
+        const emptySquare = source.color === COLORS.WHITE ? [props.x, props.y-1] : [props.x, props.y+1]
+        props.move(enPassantAction(source.type, source.color, moveFrom, moveTo, emptySquare))
+    }
+    else{
+      props.move(moveAction(source.type, source.color, moveFrom, moveTo));
+    }
   }
 };
+
+function moveEnPassant(moveFrom, moveTo, board){
+  const fromX = moveFrom[0];
+  const toX = moveTo[0];
+  const dx = toX - fromX;
+
+  if(Math.abs(dx) === 1 && board[getIndex(moveTo)] === TYPES.EMPTY)
+    return true;
+  else
+    return false;
+}
 
 function collect(connect, monitor) {
   return {

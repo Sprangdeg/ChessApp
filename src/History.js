@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { TYPES, COLORS, getColor, getType } from './Constants';
-import {goToSpecificAction, getBranchStateAsTree} from 'redux-branchable'
+import { TYPES, COLORS, getColor, getType, getCurrentHistoryAsArray, getCoordinats } from './Constants';
+import {goToSpecificAction, getBranchStateAsTree} from 'redux-branchable';
 
 export default class History extends Component {
     renderHistoryPost(counter, branchIndex, actionIndex, move){
@@ -17,7 +17,8 @@ export default class History extends Component {
     render(){    
     const histories = [];
     var tree = getBranchStateAsTree(this.props.store.branches);
-    var historyArray = getCurrentHistoryAsArray(tree, historyArray);
+    var historyArray = [];
+    historyArray = getCurrentHistoryAsArray(tree, historyArray);
     
     for(let i = 0; i<historyArray.length; i++){
         histories.push(this.renderHistoryPost(i+1, historyArray[i].branch, historyArray[i].depth, historyArray[i].action));
@@ -35,25 +36,6 @@ export default class History extends Component {
 function handleHistoryClick(branchIndex, actionIndex, dispatch) {
     //I can do things if you click the history
     dispatch(goToSpecificAction(branchIndex, actionIndex));
-}
-
-function getCurrentHistoryAsArray(node, histories = []){
-    if(node === undefined || node === null){
-        return histories;
-    }
-    //The most recent moves are always the right most nodes in the tree, which is the last child
-    let nextNode = node.children[node.children.length-1];
-    if(isRoot(node)){   //Don't see the point of showing the inital state in the history
-        return getCurrentHistoryAsArray(nextNode, histories);
-    }
-    else{
-        histories.push({action: node.action, branch: node.branch, depth: node.depth})
-        return getCurrentHistoryAsArray(nextNode, histories);
-    }
-}
-
-function isRoot(node){
-    return node.action.type === "@@redux-branchable/INIT";
 }
 
 function renderPiece(piece){
@@ -85,8 +67,7 @@ function renderPiece(piece){
 }
 
 function indexToChessNotation(index){
-    const row = Math.floor(index/8)
-    const col = index % 8;
+    const [col, row] = getCoordinats(index);
     let letter;
         switch (col) {
             case 0: {

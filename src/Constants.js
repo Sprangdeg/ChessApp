@@ -31,44 +31,36 @@ export function getType(piece){
     return piece % COLORS.WHITE === 0 ? piece/COLORS.WHITE : piece/COLORS.BLACK;
 }
 
-export const BOARD = 
-              [TYPES.ROOK*COLORS.WHITE, 
-                TYPES.KNIGHT*COLORS.WHITE,
-                TYPES.BISHOP*COLORS.WHITE,
-                TYPES.KING*COLORS.WHITE,
-                TYPES.QUEEN*COLORS.WHITE,
-                TYPES.BISHOP*COLORS.WHITE, 
-                TYPES.KNIGHT*COLORS.WHITE, 
-                TYPES.ROOK*COLORS.WHITE,
-                TYPES.PAWN*COLORS.WHITE,
-                TYPES.PAWN*COLORS.WHITE,
-                TYPES.PAWN*COLORS.WHITE,
-                TYPES.PAWN*COLORS.WHITE,
-                TYPES.PAWN*COLORS.WHITE,
-                TYPES.PAWN*COLORS.WHITE,
-                TYPES.PAWN*COLORS.WHITE,
-                TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,
-                TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,
-                TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,
-                TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,TYPES.EMPTY,
-                TYPES.PAWN*COLORS.BLACK,
-                TYPES.PAWN*COLORS.BLACK,
-                TYPES.PAWN*COLORS.BLACK,
-                TYPES.PAWN*COLORS.BLACK,
-                TYPES.PAWN*COLORS.BLACK,
-                TYPES.PAWN*COLORS.BLACK,
-                TYPES.PAWN*COLORS.BLACK,
-                TYPES.PAWN*COLORS.BLACK,
-                TYPES.ROOK*COLORS.BLACK, 
-                TYPES.KNIGHT*COLORS.BLACK,
-                TYPES.BISHOP*COLORS.BLACK,
-                TYPES.KING*COLORS.BLACK,
-                TYPES.QUEEN*COLORS.BLACK,
-                TYPES.BISHOP*COLORS.BLACK, 
-                TYPES.KNIGHT*COLORS.BLACK, 
-                TYPES.ROOK*COLORS.BLACK,
-              ];
+export function getCurrentHistoryAsArray(node, histories = []){
+    if(node === undefined || node === null){
+        return histories;
+    }
+    //The most recent moves are always the right most nodes in the tree, which is the last child
+    let nextNode = node.children[node.children.length-1];
+    if(isRoot(node)){   //Don't see the point of showing the inital state in the history
+        return getCurrentHistoryAsArray(nextNode, histories);
+    }
+    else{
+        histories.push({action: node.action, branch: node.branch, depth: node.depth})
+        return getCurrentHistoryAsArray(nextNode, histories);
+    }
+}
 
+function isRoot(node){
+    return node.action.type === "@@redux-branchable/INIT";
+}
+
+
+export function getIndex(coord){
+    const [x, y] = coord;
+    return x + y*8; 
+}
+
+export function getCoordinats(index){
+    const row = Math.floor(index/8)
+    const col = index % 8;
+  return [col, row];
+}
 
 /*  GAME LAYOUT
 RANKS
