@@ -23,6 +23,8 @@ class Board extends Component {
       <BoardSquare x={x}
                    y={y}
                    move={this.props.move}
+                   enPassant={this.props.enPassant}
+                   promotion={this.props.promotion}
                    board={this.props.board}
                    history={this.props.history}>
         {this.renderPiece(piece, color, x, y)}

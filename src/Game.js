@@ -174,6 +174,34 @@ function hasBlockingPiece(x0, y0, x1, y1, board){
 
 }
 
+export function makeMove(pieceType, color, moveFrom, moveTo, board, moveCallbacks){
+    if(pieceType === TYPES.PAWN && moveEnPassant(moveFrom, moveTo, board)){
+        const emptySquare = color === COLORS.WHITE ? [moveTo[0], moveTo[1]-1] : [moveTo[0], moveTo[1]+1]
+        moveCallbacks.enPassant(pieceType, color, moveFrom, moveTo, emptySquare);
+    }
+    else if(movePromotion(pieceType, moveTo[1])){
+      moveCallbacks.promotion(TYPES.QUEEN, color, moveFrom, moveTo);
+    }
+    else{
+      moveCallbacks.move(pieceType, color, moveFrom, moveTo);
+    }
+}
+
+function movePromotion(pieceType, row){
+    return pieceType=== TYPES.PAWN && (row === 7 || row === 0);
+}
+
+function moveEnPassant(moveFrom, moveTo, board){
+  const fromX = moveFrom[0];
+  const toX = moveTo[0];
+  const dx = toX - fromX;
+
+  if(Math.abs(dx) === 1 && board[getIndex(moveTo)] === TYPES.EMPTY)
+    return true;
+  else
+    return false;
+}
+
 //
 /*  GAME LAYOUT
 

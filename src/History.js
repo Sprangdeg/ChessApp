@@ -7,7 +7,7 @@ export default class History extends Component {
         const bColor = counter % 2 === 0 ? 'lightgrey' : 'white';
        return (<li  key={counter}
                     style={{backgroundColor: bColor, cursor:'pointer'}}
-                    onClick={() => handleHistoryClick(branchIndex, actionIndex, this.props.moveHistory)}> 
+                    onClick={() => handleHistoryClick(branchIndex, actionIndex, this.props.goToSpecificAction)}> 
                     <div style={{fontSize:'20px', fontFamily: 'monospace'}}> 
                         {renderPiece(move.piece)} {indexToChessNotation(move.moveFrom)} {indexToChessNotation(move.moveTo)} 
                     </div> 
@@ -33,9 +33,9 @@ export default class History extends Component {
     };
 }
 
-function handleHistoryClick(branchIndex, actionIndex, dispatch) {
+function handleHistoryClick(branchIndex, actionIndex, goToSpecificAction) {
     //I can do things if you click the history
-    dispatch(goToSpecificAction(branchIndex, actionIndex));
+    goToSpecificAction(branchIndex, actionIndex);
 }
 
 function renderPiece(piece){

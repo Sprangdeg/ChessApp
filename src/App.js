@@ -4,8 +4,10 @@ import './App.css';
 import Board from './Board.js';
 import History from './History.js';
 import { connect } from "react-redux";
-import { getBranchStateAsTree } from 'redux-branchable';
+import { getBranchStateAsTree, goToSpecificAction } from 'redux-branchable';
 import { getCurrentHistoryAsArray } from './Constants';
+import { moveAction, enPassantAction, promotion } from "./actions/chessAction"
+
 
 class App extends Component {
   componentWillMount(){
@@ -19,10 +21,10 @@ class App extends Component {
       <div className="App">
         <div className="App-header"> <div style={{fontSize: '3em', display: 'inline-block', position: 'relative', top: '-20px'}}>PRIME CHESS</div> <img src={logo} className="App-logo" alt="logo" /> </div>             
         <div style={{width: '50%', float: 'left'}}>
-          <Board board={this.props.board} move={this.props.dispatch} history={this.props.history}/>
+          <Board board={this.props.board} move={this.props.move} enPassant={this.props.enPassant} promotion={this.props.promotion} history={this.props.history}/>
         </div>
         <div style={{width: '50%', float: 'right'}}>
-          <History store={this.props.store} moveHistory={this.props.dispatch}/>
+          <History store={this.props.store} goToSpecificAction={this.props.goToSpecificAction}/>
         </div>
       </div>
     );
@@ -39,4 +41,11 @@ export default connect(store => {
     store: store,
     history: history
   };
+}, dispatch => {
+  return {
+    move: (piece, color, moveFrom, moveTo) => dispatch(moveAction(piece, color, moveFrom, moveTo)),
+    enPassant: (piece, color, moveFrom, moveTo, emptySquare) => dispatch(enPassantAction(piece, color, moveFrom, moveTo, emptySquare)),
+    promotion: (piece, color, moveFrom, moveTo) => dispatch(promotion(piece, color, moveFrom, moveTo)),
+    goToSpecificAction: (branchIndex, actionIndex) => dispatch(goToSpecificAction(branchIndex, actionIndex))
+  }
 })(App);
