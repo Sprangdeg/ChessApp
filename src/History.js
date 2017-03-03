@@ -67,7 +67,11 @@ function renderPiece(piece){
 }
 
 function indexToChessNotation(index){
-    const [col, row] = getCoordinats(index);
+    if(index === undefined){
+        return "Start";
+    }
+
+    const [col, row] = getCoordinats(index);       
     let letter;
         switch (col) {
             case 0: {

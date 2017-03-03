@@ -103,6 +103,32 @@ export default function reducer(state = {
                 })
             }
         }
+        case "CASTLING":{
+            return {
+                ...state,
+                board: state.board.map((item, index) => {
+                    if (index !== action.moveKingFrom && index !== action.moveKingTo && index !== action.moveRookTo && index !== action.moveRookFrom) {
+                        // This isn't the item we care about - keep it as-is
+                        return item;
+                    }
+                    else if (index === action.moveKingTo) {
+                        return action.king;
+                    }
+                    else if (index === action.moveKingFrom) {
+                        return TYPES.EMPTY;
+                    }
+                    else if (index === action.moveRookTo) {
+                        return action.rook;
+                    }
+                    else if (index === action.moveRookFrom) {
+                        return TYPES.EMPTY;
+                    }
+                    else {
+                        return item;
+                    }
+                })
+            }
+        }
         default:
             return state;
     }

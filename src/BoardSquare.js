@@ -17,7 +17,7 @@ const squareTarget = {
     const source = monitor.getItem();
     const moveFrom = [source.x, source.y];
     const moveTo = [props.x, props.y];
-    makeMove(source.type, source.color, moveFrom, moveTo, props.board, { move: props.move, enPassant: props.enPassant, promotion: props.promotion });
+    makeMove(source.type, source.color, moveFrom, moveTo, props.board, { move: props.move, enPassant: props.enPassant, promotion: props.promotion, castling: props.castling });
   }
 };
 

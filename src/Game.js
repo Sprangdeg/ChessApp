@@ -10,18 +10,23 @@ export function canMove(piece, color, moveFrom, moveTo, board, moveHistory) {
   //You don't want to start on the first square since it would mean it's blocking itself
   let x0 = fromX;
   let y0 = fromY;
-  if(x0 !== toX)
-    x0 = (toX - x0) > 0 ? x0 + 1 : x0 - 1;
-  if(y0 !== toY)
-    y0 = (toY - y0) > 0 ? y0 + 1 : y0 - 1;
-  
   
   if(dx === 0 && dy === 0)
     return false;
 
   var otherPiece = board[getIndex(moveTo)];
-  if(otherPiece !== TYPES.EMPTY && getColor(otherPiece) === color)
-    return false;
+  let otherColor = getColor(otherPiece);
+  if(otherPiece !== TYPES.EMPTY && otherColor === color) {
+     let otherType = getType(otherPiece);     
+    if((otherType === TYPES.ROOK && otherColor === color) || (otherColor === color && otherType === TYPES.KING) 
+        && (piece !== TYPES.ROOK && piece !== TYPES.KING)){
+    }
+    else{
+        return false;
+    }
+  }
+
+  
 
   //if(piece != TYPES.KNIGHT && hasBlockingPiece(fromX, fromY, toX, toY, board))
   //  return false;
@@ -31,19 +36,19 @@ export function canMove(piece, color, moveFrom, moveTo, board, moveHistory) {
         return knightMovement(dx, dy);
     }
     case TYPES.ROOK:{
-        return rookMovement(dx, dy, board) && !hasBlockingPiece(x0, y0, toX, toY, board);
+        return rookMovement(dx, dy, board) && !hasBlockingPiece(moveFrom, moveTo, board) || canCastle(piece, moveFrom, moveTo, board);
     }
     case TYPES.KING:{
-        return kingMovement(dx, dy) && !hasBlockingPiece(x0, y0, toX, toY, board);
+        return kingMovement(dx, dy) && !hasBlockingPiece(moveFrom, moveTo, board) || canCastle(piece, moveFrom, moveTo, board);
     }
     case TYPES.PAWN:{
-        return (pawnMovement(dx, dy, fromY, moveTo, color, board) && !hasBlockingPiece(x0, y0, toX, toY, board)) || enPassant(color, dx, dy, moveFrom, board, moveHistory);
+        return (pawnMovement(dx, dy, fromY, moveTo, color, board) && !hasBlockingPiece(moveFrom, moveTo, board)) || enPassant(color, dx, dy, moveFrom, board, moveHistory);
     }
     case TYPES.QUEEN:{
-        return (rookMovement(dx, dy) || bishopMovement(dx, dy)) && !hasBlockingPiece(x0, y0, toX, toY, board);
+        return (rookMovement(dx, dy) || bishopMovement(dx, dy)) && !hasBlockingPiece(moveFrom, moveTo, board);
     }
     case TYPES.BISHOP:{
-        return bishopMovement(dx, dy) && !hasBlockingPiece(x0, y0, toX, toY, board);
+        return bishopMovement(dx, dy) && !hasBlockingPiece(moveFrom, moveTo, board);
     }
     default: return false;
   }
@@ -82,6 +87,45 @@ function canPawnCapture(dx, dy, moveTo, color, board){
             && (dy === 1|| dy === -1)
             && (board[getIndex(moveTo)] !== TYPES.EMPTY && getColor(board[getIndex(moveTo)]) !== color)) 
             && movingForward(color, dy);
+}
+
+function canCastle(piece, moveFrom, moveTo, board){
+  let whiteRook1 = [0, 0];
+  let whiteRook2 = [7, 0];
+  let whiteKing = [3, 0];
+  
+  let blackRook1 = [0, 7];
+  let blackRook2 = [7, 7];
+  let blackKing = [3, 7];
+
+    if(piece === TYPES.ROOK || piece === TYPES.KING){
+        if((   (moveFrom[0] === whiteRook1[0] && moveFrom[1] === whiteRook1[1] && moveTo[0] === whiteKing[0] && moveTo[1] === whiteKing[1]) 
+            || (moveFrom[0] === whiteKing[0] && moveFrom[1] === whiteKing[1] && moveTo[0] === whiteRook1[0] && moveTo[1] === whiteRook1[1]) 
+            || (moveFrom[0] === whiteKing[0] && moveFrom[1] === whiteKing[1] && moveTo[0] === whiteRook2[0] && moveTo[1] === whiteRook2[1]) 
+            || (moveFrom[0] === whiteRook2[0] && moveFrom[1] === whiteRook2[1] && moveTo[0] === whiteKing[0] && moveTo[1] === whiteKing[1])
+            || (moveFrom[0] === blackRook1[0] && moveFrom[1] === blackRook1[1] && moveTo[0] === blackKing[0] && moveTo[1] === blackKing[1])
+            || (moveFrom[0] === blackKing[0] && moveFrom[1] === blackKing[1] && moveTo[0] === blackRook1[0] && moveTo[1] === blackRook1[1]) 
+            || (moveFrom[0] === blackKing[0] && moveFrom[1] === blackKing[1] && moveTo[0] === blackRook2[0] && moveTo[1] === blackRook2[1]) 
+            || (moveFrom[0] === blackRook2[0] && moveFrom[1] === blackRook2[1] && moveTo[0] === blackKing[0] && moveTo[1] === blackKing[1])) 
+        && !hasBlockingPiece(moveFrom, moveTo, board)){
+            //if(!checked())
+            return true;
+        }
+    }
+    else return false;
+}
+
+export function squareChecked(enemyColor, square, board){
+    for(let i = 0; i<board.length; i++){
+        if(getColor(board[i]) === enemyColor){
+            if(canMove(getType(board[i]), getColor(board[i]), getCoordinats(board[i]), square, board, null)){
+                const sq = getCoordinats(board[i]);
+                alert("Square: [" + sq[0] + ", " + sq[1] + "]" + " is checking!")//return true;
+            }
+        }
+    }
+    return false;
+    
 }
 
 function enPassant(color, dx, dy, moveFrom, board, moveHistory){
@@ -155,20 +199,26 @@ function movingForward(color, dy){
     return [Column, Row]
 }*/
 
-function hasBlockingPiece(x0, y0, x1, y1, board){
-    if(x0 === x1 && y0 === y1){
+function hasBlockingPiece(moveFrom, moveTo, board){
+   const [fromX, fromY] = moveFrom;
+   const [toX, toY] = moveTo;
+
+  let x0 = fromX;
+  let y0 = fromY;
+  if(x0 !== toX)
+    x0 = (toX - x0) > 0 ? x0 + 1 : x0 - 1;
+  if(y0 !== toY)
+    y0 = (toY - y0) > 0 ? y0 + 1 : y0 - 1;
+  
+  if(x0 === toX && y0 === toY){
         return false;
-    }
-    else if(board[getIndex([x0, y0])] !== TYPES.EMPTY){
+  }
+  else if(board[getIndex([x0, y0])] !== TYPES.EMPTY){
         return true;
-    }
-    else{
-        if(x0 !== x1)
-            x0 = (x1 - x0) > 0 ? x0 + 1 : x0 - 1;
-        if(y0 !== y1)
-            y0 = (y1 - y0) > 0 ? y0 + 1 : y0 - 1;
-        return hasBlockingPiece(x0, y0, x1, y1, board);
-    }
+  }
+  else{
+    return hasBlockingPiece([x0, y0], [toX, toY], board);
+  }  
 
     //Hämta alla arrayindex mellan moveFrom och moveTo
 
@@ -180,10 +230,31 @@ export function makeMove(pieceType, color, moveFrom, moveTo, board, moveCallback
         moveCallbacks.enPassant(pieceType, color, moveFrom, moveTo, emptySquare);
     }
     else if(movePromotion(pieceType, moveTo[1])){
-      moveCallbacks.promotion(TYPES.QUEEN, color, moveFrom, moveTo);
+        moveCallbacks.promotion(TYPES.QUEEN, color, moveFrom, moveTo);
+    }
+    else if(/*isCastling()*/ pieceType === TYPES.KING){
+        let kingToPos;
+        let rookToPos;
+        let kingFromPos;
+        let rookFromPos;
+        
+        if(pieceType === TYPES.KING){
+            kingToPos = moveTo[0] - moveFrom[0] > 0 ? [moveTo[0]-1, moveTo[1]] : [moveTo[0]+1, moveTo[1]]
+            rookToPos = moveTo[0] - moveFrom[0] > 0 ? [moveTo[0]-2, moveTo[1]] : [moveTo[0]+2, moveTo[1]]
+            kingFromPos = moveFrom;
+            rookFromPos = moveTo;
+        }
+        else{
+            kingToPos = moveTo[0] - moveFrom[0] > 0 ? [moveFrom[0]-1, moveFrom[1]] : [moveFrom[0]+1, moveFrom[1]]
+            rookToPos = moveTo[0] - moveFrom[0] > 0 ? [moveFrom[0]-2, moveFrom[1]] : [moveFrom[0]+2, moveFrom[1]]    
+            kingFromPos = moveTo;
+            rookFromPos = moveFrom;    
+        }
+     
+        moveCallbacks.castling(TYPES.KING, TYPES.ROOK, color, kingFromPos, kingToPos, rookFromPos, rookToPos);
     }
     else{
-      moveCallbacks.move(pieceType, color, moveFrom, moveTo);
+        moveCallbacks.move(pieceType, color, moveFrom, moveTo);
     }
 }
 

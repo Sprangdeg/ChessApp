@@ -26,6 +26,18 @@ export function promotion(piece, color, moveFrom, moveTo){
     }
 }
 
+export function castling(king, rook, color, moveKingFrom, moveKingTo, moveRookFrom, moveRookTo){
+    return {
+        type: "CASTLING",
+        moveKingTo: transformToIndex(moveKingTo),
+        moveKingFrom: transformToIndex(moveKingFrom),
+        moveRookFrom: transformToIndex(moveRookFrom),
+        moveRookTo: transformToIndex(moveRookTo),
+        king: combineTypeColor(king, color),
+        rook: combineTypeColor(rook, color)        
+    }
+}
+
 function transformToIndex(coord){
     const [x, y] = coord;
     return x + y*8; 

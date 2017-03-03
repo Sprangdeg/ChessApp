@@ -9,6 +9,7 @@ import Bishop from './ChessPieces/Bishop';
 import Pawn from './ChessPieces/Pawn';
 import BoardSquare from './BoardSquare';
 import { TYPES, COLORS } from './Constants';
+import { squareChecked } from './Game'
 
 
 
@@ -19,12 +20,13 @@ class Board extends Component {
     return (
       <div key={i}
            style={{ width: '80px', height: '80px' }}
-           onClick={() => this.handleSquareClick(x, y)}>
+           onClick={() => this.handleSquareClick([x, y], this.props.board)}>
       <BoardSquare x={x}
                    y={y}
                    move={this.props.move}
                    enPassant={this.props.enPassant}
                    promotion={this.props.promotion}
+                   castling={this.props.castling}
                    board={this.props.board}
                    history={this.props.history}>
         {this.renderPiece(piece, color, x, y)}
@@ -63,9 +65,10 @@ renderPiece(piece, color, x, y) {
 
 
 
-handleSquareClick(toX, toY) {
+handleSquareClick(toSquare, board) {
   //I can do things if you click the square
   //alert("You clicked");
+  squareChecked(COLORS.BLACK, toSquare, board);
 }
 
   render() {
