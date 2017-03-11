@@ -10,7 +10,8 @@ export const TYPES = {
 
 export const COLORS = {
   WHITE: 2,
-  BLACK: 3
+  BLACK: 3,
+  NOCOLOR: -1
 };
 
 export const STRINGTYPES = {
@@ -23,11 +24,21 @@ export const STRINGTYPES = {
   PIECE: "PIECE"
 };
 
+export function combineTypeColor(piece, color){
+    return (piece * color);
+}
+
 export function getColor(piece){
+    if(piece === TYPES.EMPTY || piece === undefined){
+        return COLORS.EMPTY;
+    }
     return piece % COLORS.WHITE === 0 ? COLORS.WHITE : COLORS.BLACK;
 }
 
 export function getType(piece){
+    if(piece === undefined){
+        return TYPES.EMPTY;
+    }
     return piece % COLORS.WHITE === 0 ? piece/COLORS.WHITE : piece/COLORS.BLACK;
 }
 
@@ -54,6 +65,10 @@ function isRoot(node){
 export function getIndex(coord){
     const [x, y] = coord;
     return x + y*8; 
+}
+
+export function getOpposingColor(color){
+    return color === COLORS.WHITE ? COLORS.BLACK : COLORS.WHITE;
 }
 
 export function getCoordinats(index){

@@ -1,6 +1,6 @@
-import { TYPES, COLORS, getColor, getType, getIndex, getCoordinats } from "./Constants"
+import { TYPES, COLORS, getColor, getType, getIndex, getCoordinats, getOpposingColor, combineTypeColor } from "./Constants"
 
-export function canMove(piece, color, moveFrom, moveTo, board, moveHistory) {
+export function canMove(piece, color, moveFrom, moveTo, board, moveHistory, onlyCapture = false) {
   const [fromX, fromY] = moveFrom;
   const [toX, toY] = moveTo;
   const dx = toX - fromX;
@@ -14,8 +14,18 @@ export function canMove(piece, color, moveFrom, moveTo, board, moveHistory) {
   if(dx === 0 && dy === 0)
     return false;
 
+  if(isKingCheck(color, board)){
+    let boardPiece =  combineTypeColor(piece, color);
+    let nextBoard = makeTempMove(boardPiece, moveTo, moveFrom, board);
+    if(isKingCheck(color, nextBoard)){
+        return false
+    }
+  }
+
   var otherPiece = board[getIndex(moveTo)];
   let otherColor = getColor(otherPiece);
+  
+  //If it's my own square with exception for castling
   if(otherPiece !== TYPES.EMPTY && otherColor === color) {
      let otherType = getType(otherPiece);     
     if((otherType === TYPES.ROOK && otherColor === color) || (otherColor === color && otherType === TYPES.KING) 
@@ -42,7 +52,7 @@ export function canMove(piece, color, moveFrom, moveTo, board, moveHistory) {
         return kingMovement(dx, dy) && !hasBlockingPiece(moveFrom, moveTo, board) || canCastle(piece, moveFrom, moveTo, board);
     }
     case TYPES.PAWN:{
-        return (pawnMovement(dx, dy, fromY, moveTo, color, board) && !hasBlockingPiece(moveFrom, moveTo, board)) || enPassant(color, dx, dy, moveFrom, board, moveHistory);
+        return (pawnMovement(dx, dy, fromY, moveTo, color, board, onlyCapture) && !hasBlockingPiece(moveFrom, moveTo, board)) || enPassant(color, dx, dy, moveFrom, board, moveHistory);
     }
     case TYPES.QUEEN:{
         return (rookMovement(dx, dy) || bishopMovement(dx, dy)) && !hasBlockingPiece(moveFrom, moveTo, board);
@@ -72,9 +82,9 @@ function kingMovement(dx, dy){
     return Math.abs(dx) <= 1 && Math.abs(dy) <= 1;
 }
 
-function pawnMovement(dx, dy, fromY, moveTo, color, board){
+function pawnMovement(dx, dy, fromY, moveTo, color, board, onlyCheck){
         var canGo = fromY === 1 || fromY === 6 ? Math.abs(dx) === 0 && Math.abs(dy) <= 2 && movingForward(color, dy) : Math.abs(dx) === 0 && Math.abs(dy) <= 1 && movingForward(color, dy);
-        canGo = (canGo && emptySquare(moveTo, board) ) || canPawnCapture(dx, dy, moveTo, color, board);  
+        canGo = (canGo && emptySquare(moveTo, board) && !onlyCheck) || canPawnCapture(dx, dy, moveTo, color, board, onlyCheck);  
     return canGo;    
 }
 
@@ -82,11 +92,86 @@ function emptySquare(square, board){
     return board[getIndex(square)] === TYPES.EMPTY
 }
 
-function canPawnCapture(dx, dy, moveTo, color, board){
-    return ((dx === 1 || dx === -1) 
-            && (dy === 1|| dy === -1)
-            && (board[getIndex(moveTo)] !== TYPES.EMPTY && getColor(board[getIndex(moveTo)]) !== color)) 
+function canPawnCapture(dx, dy, moveTo, color, board, onlyCheck = false){
+    return    ((dx === 1 || dx === -1) 
+            && (dy === 1 || dy === -1)
+            && ((board[getIndex(moveTo)] !== TYPES.EMPTY && getColor(board[getIndex(moveTo)]) !== color) || onlyCheck)) 
             && movingForward(color, dy);
+}
+
+function isKingCheck(color, board){
+    let kingCoords = findKing(color, board);
+    
+    let res = captureAsKnight(kingCoords, color, board);
+    if(res)
+        console.log("King is check!");
+    return res;
+}
+
+/**** MOVE KING AS THE OTHER PIECES TO SEE IF IT IS CHECKED  ****/
+function captureAsKnight(kingPos, color, board){
+    let [x0, y0] = kingPos;
+    let dx1 = 1;
+    let dy1 = 1;
+    let dx2 = 2;
+    let dy2 = 2;
+
+    let m1 = board[getIndex([x0+dx1, y0+dy2])];
+    let m2 = board[getIndex([x0-dx1, y0+dy2])];
+    let m3 = board[getIndex([x0+dx1, y0-dy2])];
+    let m4 = board[getIndex([x0-dx1, y0-dy2])];
+
+    let m5 = board[getIndex([x0+dx2, y0+dy1])];
+    let m6 = board[getIndex([x0-dx2, y0+dy1])];
+    let m7 = board[getIndex([x0+dx2, y0-dy1])];
+    let m8 = board[getIndex([x0-dx2, y0-dy1])];
+
+    if(getType(m1) === TYPES.KNIGHT && getColor(m1) !== color){
+        return true;
+    }
+    else if(getType(m2) === TYPES.KNIGHT && getColor(m2) !== color){
+        return true;
+    }
+    else if(getType(m3) === TYPES.KNIGHT && getColor(m3) !== color){
+        return true;
+    }
+    else if(getType(m4) === TYPES.KNIGHT && getColor(m4) !== color){
+        return true;
+    }
+    else if(getType(m5) === TYPES.KNIGHT && getColor(m5) !== color){
+        return true;
+    }
+    else if(getType(m6) === TYPES.KNIGHT && getColor(m6) !== color){
+        return true;
+    }
+    else if(getType(m7) === TYPES.KNIGHT && getColor(m7) !== color){
+        return true;
+    }
+    else if(getType(m8) === TYPES.KNIGHT && getColor(m8) !== color){
+        return true;
+    }
+
+    return false;
+}
+
+function captureAsQueen(color, board){
+    return false;
+}
+
+ function makeTempMove(piece, moveTo, moveFrom, board){
+     let nextBoard = board.slice();
+     nextBoard[getIndex(moveTo)] = piece;
+     nextBoard[getIndex(moveFrom)] = TYPES.EMPTY;
+     return nextBoard;
+ }
+
+function findKing(color, board){
+    for(let i=0; i<board.length; i++){
+        if(getType(board[i]) === TYPES.KING && getColor(board[i]) === color){
+            return getCoordinats(i);
+        }
+    }
+    return -1;
 }
 
 function canCastle(piece, moveFrom, moveTo, board){
@@ -108,7 +193,23 @@ function canCastle(piece, moveFrom, moveTo, board){
             || (moveFrom[0] === blackKing[0] && moveFrom[1] === blackKing[1] && moveTo[0] === blackRook2[0] && moveTo[1] === blackRook2[1]) 
             || (moveFrom[0] === blackRook2[0] && moveFrom[1] === blackRook2[1] && moveTo[0] === blackKing[0] && moveTo[1] === blackKing[1])) 
         && !hasBlockingPiece(moveFrom, moveTo, board)){
-            //if(!checked())
+            let boardPiece = board[getIndex(moveFrom)];
+            let pieceColor = getColor(boardPiece);
+            let opposingColor = getOpposingColor(pieceColor);
+           
+            let [x0, y0] = moveFrom;
+            let [x1, y1] = moveTo;
+            let dx = Math.abs(x1 - x0);
+            let i = 1;
+            let startSquare = x1 > x0 ? x0 : x1;
+
+            while(i < dx){
+                let square = [startSquare + i, y0]
+                if(squareChecked(opposingColor, square ,board)){
+                    return false;
+                }
+                i++;
+            }
             return true;
         }
     }
@@ -118,9 +219,10 @@ function canCastle(piece, moveFrom, moveTo, board){
 export function squareChecked(enemyColor, square, board){
     for(let i = 0; i<board.length; i++){
         if(getColor(board[i]) === enemyColor){
-            if(canMove(getType(board[i]), getColor(board[i]), getCoordinats(board[i]), square, board, null)){
-                const sq = getCoordinats(board[i]);
-                alert("Square: [" + sq[0] + ", " + sq[1] + "]" + " is checking!")//return true;
+            if(canMove(getType(board[i]), getColor(board[i]), getCoordinats(i), square, board, null, true)){
+                //const sq = getCoordinats(i);
+                //alert("Square: [" + sq[0] + ", " + sq[1] + "]" + " is checking!")//return true;
+                return true;
             }
         }
     }
