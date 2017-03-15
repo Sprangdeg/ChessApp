@@ -21,6 +21,13 @@ export function canMove(piece, color, moveFrom, moveTo, board, moveHistory, only
         return false
     }
   }
+  else{
+    let boardPiece =  combineTypeColor(piece, color);
+    let nextBoard = makeTempMove(boardPiece, moveTo, moveFrom, board);
+    if(isKingCheck(color, nextBoard)){
+        return false
+    }
+  }
 
   var otherPiece = board[getIndex(moveTo)];
   let otherColor = getColor(otherPiece);
@@ -101,8 +108,10 @@ function canPawnCapture(dx, dy, moveTo, color, board, onlyCheck = false){
 
 function isKingCheck(color, board){
     let kingCoords = findKing(color, board);
-    
-    let res = captureAsKnight(kingCoords, color, board);
+    if(kingCoords === TYPES.EMPTY){
+        return true;
+    }
+    let res = captureAsKnight(kingCoords, color, board) || captureAsQueen(kingCoords, color, board);
     if(res)
         console.log("King is check!");
     return res;
@@ -154,7 +163,165 @@ function captureAsKnight(kingPos, color, board){
     return false;
 }
 
-function captureAsQueen(color, board){
+function captureAsQueen(kingCoords, color, board){
+    let [x0, y0] = kingCoords;
+
+    //Capture as rook
+    let i = 1
+    while (x0+i <= 7){
+        let piece = board[getIndex([x0+i, y0])];
+        let pieceType = getType(piece);
+        let pieceColor = getColor(piece);
+        
+        if(pieceType === TYPES.EMPTY){
+            i++;
+        }
+        else if(pieceType === TYPES.QUEEN && pieceColor !== color){
+            return true;
+        }
+        else if(pieceType === TYPES.ROOK && pieceColor !== color){
+            return true;
+        }
+        else {     
+             break;
+        }
+    }
+    i = 1;
+    while (x0-i >= 0){
+        let piece = board[getIndex([x0-i, y0])];
+        let pieceType = getType(piece);
+        let pieceColor = getColor(piece);
+        
+        if(pieceType === TYPES.EMPTY){
+            i++;
+        }
+        else if(pieceType === TYPES.QUEEN && pieceColor !== color){
+            return true;
+        }
+        else if(pieceType === TYPES.ROOK && pieceColor !== color){
+            return true;
+        }
+        else { 
+             break;
+        }
+    }
+    i = 1;
+    while (y0+i <= 7){
+        let piece = board[getIndex([x0, y0+i])];
+        let pieceType = getType(piece);
+        let pieceColor = getColor(piece);
+        
+        if(pieceType === TYPES.EMPTY){
+            i++;
+        }
+        else if(pieceType === TYPES.QUEEN && pieceColor !== color){
+            return true;
+        }
+        else if(pieceType === TYPES.ROOK && pieceColor !== color){
+            return true;
+        }
+        else { 
+             break;
+        }
+    }
+    i = 1;
+    while (y0-i >= 0){
+        let piece = board[getIndex([x0, y0-i])];
+        let pieceType = getType(piece);
+        let pieceColor = getColor(piece);
+        
+        if(pieceType === TYPES.EMPTY){
+            i++;
+        }
+        else if(pieceType === TYPES.QUEEN && pieceColor !== color){
+            return true;
+        }
+        else if(pieceType === TYPES.ROOK && pieceColor !== color){
+            return true;
+        }
+        else { 
+             break;
+        }
+    }
+
+    //Capture as bishop
+    i = 1
+    while (x0+i <= 7 && y0+i <=7){
+        let piece = board[getIndex([x0+i, y0+i])];
+        let pieceType = getType(piece);
+        let pieceColor = getColor(piece);
+        
+        if(pieceType === TYPES.EMPTY){
+            i++;
+        }
+        else if(pieceType === TYPES.QUEEN && pieceColor !== color){
+            return true;
+        }
+        else if(pieceType === TYPES.BISHOP && pieceColor !== color){
+            return true;
+        }
+        else {     
+             break;
+        }
+    }
+    i = 1;
+    while (x0-i >= 0 && y0+i <=7){
+        let piece = board[getIndex([x0-i, y0+i])];
+        let pieceType = getType(piece);
+        let pieceColor = getColor(piece);
+        
+        if(pieceType === TYPES.EMPTY){
+            i++;
+        }
+        else if(pieceType === TYPES.QUEEN && pieceColor !== color){
+            return true;
+        }
+        else if(pieceType === TYPES.BISHOP && pieceColor !== color){
+            return true;
+        }
+        else { 
+             break;
+        }
+    }
+    i = 1;
+    while (x0+i <= 7 && y0-i >=0){
+        let piece = board[getIndex([x0+i, y0-i])];
+        let pieceType = getType(piece);
+        let pieceColor = getColor(piece);
+        
+        if(pieceType === TYPES.EMPTY){
+            i++;
+        }
+        else if(pieceType === TYPES.QUEEN && pieceColor !== color){
+            return true;
+        }
+        else if(pieceType === TYPES.BISHOP && pieceColor !== color){
+            return true;
+        }
+        else { 
+             break;
+        }
+    }
+    i = 1;
+    while (x0-i >= 0 && y0-i >= 0){
+        let piece = board[getIndex([x0-i, y0-i])];
+        let pieceType = getType(piece);
+        let pieceColor = getColor(piece);
+        
+        if(pieceType === TYPES.EMPTY){
+            i++;
+        }
+        else if(pieceType === TYPES.QUEEN && pieceColor !== color){
+            return true;
+        }
+        else if(pieceType === TYPES.BISHOP && pieceColor !== color){
+            return true;
+        }
+        else { 
+             break;
+        }
+    }
+
     return false;
 }
 
@@ -171,7 +338,7 @@ function findKing(color, board){
             return getCoordinats(i);
         }
     }
-    return -1;
+    return TYPES.EMPTY;
 }
 
 function canCastle(piece, moveFrom, moveTo, board){
@@ -334,7 +501,7 @@ export function makeMove(pieceType, color, moveFrom, moveTo, board, moveCallback
     else if(movePromotion(pieceType, moveTo[1])){
         moveCallbacks.promotion(TYPES.QUEEN, color, moveFrom, moveTo);
     }
-    else if(/*isCastling()*/ pieceType === TYPES.KING){
+    else if((pieceType === TYPES.KING || pieceType === TYPES.Rook) && isCastling()){
         let kingToPos;
         let rookToPos;
         let kingFromPos;
@@ -358,6 +525,10 @@ export function makeMove(pieceType, color, moveFrom, moveTo, board, moveCallback
     else{
         moveCallbacks.move(pieceType, color, moveFrom, moveTo);
     }
+}
+
+function isCastling(){
+    return false;
 }
 
 function movePromotion(pieceType, row){
