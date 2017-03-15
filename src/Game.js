@@ -14,29 +14,13 @@ export function canMove(piece, color, moveFrom, moveTo, board, moveHistory, only
   if(dx === 0 && dy === 0)
     return false;
 
-  if(isKingCheck(color, board)){
-    let boardPiece =  combineTypeColor(piece, color);
-    let nextBoard = makeTempMove(boardPiece, moveTo, moveFrom, board);
-    if(isKingCheck(color, nextBoard)){
-        return false
-    }
-  }
-  else{
-    let boardPiece =  combineTypeColor(piece, color);
-    let nextBoard = makeTempMove(boardPiece, moveTo, moveFrom, board);
-    if(isKingCheck(color, nextBoard)){
-        return false
-    }
-  }
-
   var otherPiece = board[getIndex(moveTo)];
   let otherColor = getColor(otherPiece);
   
   //If it's my own square with exception for castling
   if(otherPiece !== TYPES.EMPTY && otherColor === color) {
      let otherType = getType(otherPiece);     
-    if((otherType === TYPES.ROOK && otherColor === color) || (otherColor === color && otherType === TYPES.KING) 
-        && (piece !== TYPES.ROOK && piece !== TYPES.KING)){
+    if(canCastle(piece, moveFrom, moveTo, board)){
     }
     else{
         return false;
@@ -50,25 +34,48 @@ export function canMove(piece, color, moveFrom, moveTo, board, moveHistory, only
 
   switch(piece){
     case TYPES.KNIGHT:{
-        return knightMovement(dx, dy);
+        return knightMovement(dx, dy) && kingCheck(piece, color, moveFrom, moveTo, board);
     }
     case TYPES.ROOK:{
-        return rookMovement(dx, dy, board) && !hasBlockingPiece(moveFrom, moveTo, board) || canCastle(piece, moveFrom, moveTo, board);
+        return (rookMovement(dx, dy, board) && !hasBlockingPiece(moveFrom, moveTo, board) || canCastle(piece, moveFrom, moveTo, board)) && kingCheck(piece, color, moveFrom, moveTo, board);
     }
     case TYPES.KING:{
-        return kingMovement(dx, dy) && !hasBlockingPiece(moveFrom, moveTo, board) || canCastle(piece, moveFrom, moveTo, board);
+        return (kingMovement(dx, dy) && !hasBlockingPiece(moveFrom, moveTo, board) || canCastle(piece, moveFrom, moveTo, board)) && kingCheck(piece, color, moveFrom, moveTo, board);
     }
     case TYPES.PAWN:{
-        return (pawnMovement(dx, dy, fromY, moveTo, color, board, onlyCapture) && !hasBlockingPiece(moveFrom, moveTo, board)) || enPassant(color, dx, dy, moveFrom, board, moveHistory);
+        return ((pawnMovement(dx, dy, fromY, moveTo, color, board, onlyCapture) && !hasBlockingPiece(moveFrom, moveTo, board)) || enPassant(color, dx, dy, moveFrom, board, moveHistory)) && kingCheck(piece, color, moveFrom, moveTo, board);
     }
     case TYPES.QUEEN:{
-        return (rookMovement(dx, dy) || bishopMovement(dx, dy)) && !hasBlockingPiece(moveFrom, moveTo, board);
+        return ((rookMovement(dx, dy) || bishopMovement(dx, dy)) && !hasBlockingPiece(moveFrom, moveTo, board)) && kingCheck(piece, color, moveFrom, moveTo, board);
     }
     case TYPES.BISHOP:{
-        return bishopMovement(dx, dy) && !hasBlockingPiece(moveFrom, moveTo, board);
+        return (bishopMovement(dx, dy) && !hasBlockingPiece(moveFrom, moveTo, board)) && kingCheck(piece, color, moveFrom, moveTo, board);
     }
     default: return false;
   }
+}
+
+function kingCheck(piece, color, moveFrom, moveTo, board){
+    if(isKingCheck(color, board)){
+        let boardPiece =  combineTypeColor(piece, color);
+        let nextBoard = makeTempMove(boardPiece, moveTo, moveFrom, board);
+        if(isKingCheck(color, nextBoard)){
+            return false
+        }
+        else{
+            return true;
+        }
+    }
+    else{
+        let boardPiece =  combineTypeColor(piece, color);
+        let nextBoard = makeTempMove(boardPiece, moveTo, moveFrom, board);
+        if(isKingCheck(color, nextBoard)){
+            return false
+        }
+        else{
+            return true;
+        }
+    }
 }
 
 function knightMovement(dx, dy){
@@ -501,7 +508,7 @@ export function makeMove(pieceType, color, moveFrom, moveTo, board, moveCallback
     else if(movePromotion(pieceType, moveTo[1])){
         moveCallbacks.promotion(TYPES.QUEEN, color, moveFrom, moveTo);
     }
-    else if((pieceType === TYPES.KING || pieceType === TYPES.Rook) && isCastling()){
+    else if((pieceType === TYPES.KING || pieceType === TYPES.Rook) && isCastling(pieceType, color, moveFrom, moveTo, board)){
         let kingToPos;
         let rookToPos;
         let kingFromPos;
@@ -527,7 +534,19 @@ export function makeMove(pieceType, color, moveFrom, moveTo, board, moveCallback
     }
 }
 
-function isCastling(){
+function isCastling(pieceType, color, moveFrom, moveTo, board){
+   const [fromX, fromY] = moveFrom;
+   const [toX, toY] = moveTo;
+   const dx = Math.abs(toX - fromX)
+    if(pieceType === TYPES.KING && dx > 1){
+        return true;
+    }
+
+    let pieceColor = getColor(board[getIndex(moveTo)]);    
+    if(pieceType === TYPES.ROOK && pieceColor === color){
+        return true;
+    }
+
     return false;
 }
 
