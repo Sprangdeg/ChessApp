@@ -1,4 +1,4 @@
-import { TYPES, COLORS, getColor, getType, getIndex, getCoordinats, getOpposingColor, combineTypeColor } from "./Constants"
+import { TYPES, COLORS, getColor, getType, getIndex, getCoordinats, getOpposingColor, combineTypeColor, PLAYERCOLOR } from "./Constants"
 
 export function canMove(piece, color, moveFrom, moveTo, board, moveHistory, onlyCapture = false) {
   const [fromX, fromY] = moveFrom;
@@ -19,7 +19,6 @@ export function canMove(piece, color, moveFrom, moveTo, board, moveHistory, only
   
   //If it's my own square with exception for castling
   if(otherPiece !== TYPES.EMPTY && otherColor === color) {
-     let otherType = getType(otherPiece);     
     if(canCastle(piece, moveFrom, moveTo, board)){
     }
     else{
@@ -76,6 +75,10 @@ function kingCheck(piece, color, moveFrom, moveTo, board){
             return true;
         }
     }
+}
+
+export function PlayersTurn(){
+    return true;
 }
 
 function knightMovement(dx, dy){

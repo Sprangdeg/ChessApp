@@ -14,6 +14,8 @@ export const COLORS = {
   NOCOLOR: -1
 };
 
+export const PLAYERCOLOR = COLORS.BLACK;
+
 export const STRINGTYPES = {
   PAWN: "PAWN",
   KNIGHT: "KNIGHT",

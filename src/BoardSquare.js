@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Square from './Square';
-import { canMove, makeMove } from './Game';
+import { canMove, makeMove, PlayersTurn } from './Game';
 import { STRINGTYPES, TYPES, getIndex, COLORS } from './Constants';
 import { DropTarget } from 'react-dnd';
 
@@ -10,6 +10,7 @@ const squareTarget = {
     const source = monitor.getItem();
     const moveFrom = [source.x, source.y];
     const moveTo = [props.x, props.y];
+    
     return canMove(source.type, source.color, moveFrom, moveTo, props.board, props.history);
   },
 
@@ -17,7 +18,10 @@ const squareTarget = {
     const source = monitor.getItem();
     const moveFrom = [source.x, source.y];
     const moveTo = [props.x, props.y];
+    
     makeMove(source.type, source.color, moveFrom, moveTo, props.board, { move: props.move, enPassant: props.enPassant, promotion: props.promotion, castling: props.castling });
+    
+    //primeFishMove();
   }
 };
 
