@@ -12,7 +12,8 @@
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
-    "redux-branchable": "0.1.4"
+    "redux-branchable": "0.1.4",
+    "redux-optimist": "0.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

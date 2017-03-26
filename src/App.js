@@ -5,8 +5,9 @@ import Board from './Board.js';
 import History from './History.js';
 import { connect } from "react-redux";
 import { getBranchStateAsTree, goToSpecificAction } from 'redux-branchable';
-import { getCurrentHistoryAsArray } from './Constants';
+import { getCurrentHistoryAsArray, COLORS } from './Constants';
 import { moveAction, enPassantAction, promotion, castling } from "./actions/chessAction"
+import { primeFishMove } from './PrimeFisher'
 
 
 class App extends Component {
@@ -15,8 +16,8 @@ class App extends Component {
   }
 
   render() {
-
     console.log(this.props);
+    primeFishMove(COLORS.WHITE, this.props.board, this.props.history, { move: this.props.move, enPassant: this.props.enPassant, promotion: this.props.promotion, castling: this.props.castling });
     return (
       <div className="App">
         <div className="App-header"> <div style={{fontSize: '3em', display: 'inline-block', position: 'relative', top: '-20px'}}>PRIME CHESS</div> <img src={logo} className="App-logo" alt="logo" /> </div>             
@@ -35,6 +36,7 @@ export default connect(store => {
     const tree = getBranchStateAsTree(store.branches);
     let history = [];
     history = getCurrentHistoryAsArray(tree, history)
+ 
   return {
     board: store.currentState.chess.board,
     store: store,

@@ -4,7 +4,6 @@ import { canMove, makeMove, PlayersTurn } from './Game';
 import { STRINGTYPES, TYPES, getIndex, COLORS } from './Constants';
 import { DropTarget } from 'react-dnd';
 
-
 const squareTarget = {
   canDrop(props, monitor) {
     const source = monitor.getItem();
@@ -20,8 +19,6 @@ const squareTarget = {
     const moveTo = [props.x, props.y];
     
     makeMove(source.type, source.color, moveFrom, moveTo, props.board, { move: props.move, enPassant: props.enPassant, promotion: props.promotion, castling: props.castling });
-    
-    //primeFishMove();
   }
 };
 

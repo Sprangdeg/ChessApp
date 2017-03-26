@@ -1,6 +1,9 @@
 import { TYPES, COLORS, getColor, getType, getIndex, getCoordinats, getOpposingColor, combineTypeColor, PLAYERCOLOR } from "./Constants"
 
 export function canMove(piece, color, moveFrom, moveTo, board, moveHistory, onlyCapture = false) {
+  if(GetLastMoveColor(moveHistory) === color){
+      return false;
+  }
   const [fromX, fromY] = moveFrom;
   const [toX, toY] = moveTo;
   const dx = toX - fromX;
@@ -77,8 +80,11 @@ function kingCheck(piece, color, moveFrom, moveTo, board){
     }
 }
 
-export function PlayersTurn(){
-    return true;
+function GetLastMoveColor(history){
+    //Since white start we need to return black on the first move
+    if(history[history.length -1].action.type === "@@redux/INIT")
+        return COLORS.BLACK;
+    return getColor(history[history.length -1].action.piece);
 }
 
 function knightMovement(dx, dy){
