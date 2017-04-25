@@ -3,7 +3,7 @@ Pictures of the game
 Starting position
 ![Alt text](https://raw.githubusercontent.com/Sprangdeg/ChessApp/master/images/start.PNG "Optional Title")
 
-Making a move. Yellow is possible moves. Red is illegal moves. Green is legal move (hoover a yellow square).
+Making a move. Yellow are possible moves. Red are illegal moves. Green is a legal move (hoover a yellow square).
 History showes the moves.
 ![Alt text](https://raw.githubusercontent.com/Sprangdeg/ChessApp/master/images/move.png "Optional Title")
 
