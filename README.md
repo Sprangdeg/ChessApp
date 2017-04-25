@@ -1,6 +1,16 @@
 Pictures of the game
 
+Starting position
 ![Alt text](https://raw.githubusercontent.com/Sprangdeg/ChessApp/master/images/start.PNG "Optional Title")
+
+Making a move. Yellow is possible moves. Red is illegal moves. Green is legal move (hoover a yellow square).
+History showes the moves.
+![Alt text](https://raw.githubusercontent.com/Sprangdeg/ChessApp/master/images/move.png "Optional Title")
+
+Clicking on a move in the history changes the state of the board. 
+If you make a move after clicking on the history the history will branch. The moves you previously made after the branch will not be accessable.
+![Alt text](https://raw.githubusercontent.com/Sprangdeg/ChessApp/master/images/undomove.PNG "Optional Title")
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
