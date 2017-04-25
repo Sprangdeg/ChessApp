@@ -1,6 +1,6 @@
 Pictures of the game
 
-[[https://github.com/sprangdeg/ChessApp/images/start.png]]
+![Alt text](/images/start.png?raw=true "Optional Title")
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
